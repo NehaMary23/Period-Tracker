@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Period Cycle Tracker{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar {
+        background: linear-gradient(135deg, #f472b6 0%, #d946a6 100%);
+        padding: 20px;
+      }
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+      .sidebar {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #f472b6 0%, #d946a6 100%);
+        border: none;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      }
+      .card {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      .card-header {
+        background: linear-gradient(135deg, #f472b6 0%, #d946a6 100%);
+        color: white;
+        border-radius: 10px 10px 0 0 !important;
+      }
+      .alert {
+        border-radius: 10px;
+      }
+      .nav-link {
+        color: white !important;
+      }
+      .nav-link:hover {
+        color: #ddd !important;
+      }
+    </style>
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'tracker:dashboard' %}"
+          ><i class="fas fa-heartbeat" style="margin-right: 8px"></i>Period
+          Cycle Tracker</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tracker:dashboard' %}"
+                >Dashboard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tracker:log_period' %}"
+                >Log Period</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tracker:cycle_history' %}"
+                >History</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tracker:settings' %}"
+                >Settings</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}"
+                >Logout ({{ user.username }})</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4 mb-4">
+      {% if messages %}
+      <div>
+        {% for message in messages %}
+        <div
+          class="alert alert-{{ message.tags }} alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+          ></button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} {% block content %}{% endblock %}
+    </div>
+
+    <footer class="bg-light text-center py-4 mt-5">
+      <p class="text-muted mb-0">
+        &copy; {% now "Y" %} Period Cycle Tracker. Your health, your privacy.
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

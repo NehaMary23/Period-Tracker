@@ -1,0 +1,198 @@
+{% extends 'base.html' %} {% block title %}Sign Up - Period Tracker{% endblock
+%} {% block extra_css %}
+<style>
+  .signup-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f472b6 0%, #d946a6 100%);
+    padding: 20px 0;
+  }
+  .signup-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .signup-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  .signup-header {
+    background: linear-gradient(135deg, #f472b6 0%, #d946a6 100%);
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+  }
+  .signup-header h1 {
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+  }
+  .signup-body {
+    padding: 40px;
+  }
+  .form-control {
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    font-size: 1rem !important;
+  }
+  .form-control:focus {
+    border-color: #f472b6 !important;
+    box-shadow: 0 0 0 0.2rem rgba(244, 114, 182, 0.15) !important;
+  }
+  .form-label {
+    font-weight: 600 !important;
+    color: #333 !important;
+    margin-bottom: 8px !important;
+    font-size: 0.95rem !important;
+  }
+  .btn-signup {
+    background: linear-gradient(135deg, #f472b6 0%, #d946a6 100%);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+  }
+  .btn-signup:hover {
+    background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(244, 114, 182, 0.3);
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="signup-container">
+  <div class="signup-wrapper">
+    <div class="signup-card">
+      <div class="signup-header">
+        <h1><i class="fas fa-file-signature"></i> Create Account</h1>
+      </div>
+      <div class="signup-body">
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+          {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-4">
+            <label for="{{ form.username.id_for_label }}" class="form-label"
+              >Username</label
+            >
+            {{ form.username }} {% if form.username.errors %}
+            <div class="alert alert-danger mt-2 mb-0" style="font-size: 0.9rem">
+              {{ form.username.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label for="{{ form.email.id_for_label }}" class="form-label"
+              >Email Address</label
+            >
+            {{ form.email }} {% if form.email.errors %}
+            <div class="alert alert-danger mt-2 mb-0" style="font-size: 0.9rem">
+              {{ form.email.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="mb-4">
+            <label for="{{ form.password1.id_for_label }}" class="form-label"
+              >Password</label
+            >
+            {{ form.password1 }} {% if form.password1.errors %}
+            <div class="alert alert-danger mt-2 mb-0" style="font-size: 0.9rem">
+              {{ form.password1.errors }}
+            </div>
+            {% endif %}
+            <div style="font-size: 0.85rem; color: #666; margin-top: 5px">
+              {{ form.password1.help_text }}
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="{{ form.password2.id_for_label }}" class="form-label"
+              >Confirm Password</label
+            >
+            {{ form.password2 }} {% if form.password2.errors %}
+            <div class="alert alert-danger mt-2 mb-0" style="font-size: 0.9rem">
+              {{ form.password2.errors }}
+            </div>
+            {% endif %}
+            <div style="font-size: 0.85rem; color: #666; margin-top: 5px">
+              {{ form.password2.help_text }}
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-signup w-100">
+            Create Account
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px">
+          <p style="margin: 0 0 10px 0; color: #666">
+            Already have an account?
+          </p>
+          <a
+            href="/login/"
+            style="color: #f472b6; text-decoration: none; font-weight: 600"
+            >Sign In Instead</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="
+        background: #f8f9ff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-top: 30px;
+        text-align: center;
+      "
+    >
+      <h5
+        style="
+          color: #333;
+          font-weight: 700;
+          margin-bottom: 20px;
+          margin-top: 0;
+        "
+      >
+        Why create an account?
+      </h5>
+      <ul style="list-style: none; padding: 0">
+        <li style="padding: 8px 0; color: #666; font-size: 0.95rem">
+          <i class="fas fa-check" style="color: #667eea; margin-right: 8px"></i
+          >Track your menstrual cycle in detail
+        </li>
+        <li style="padding: 8px 0; color: #666; font-size: 0.95rem">
+          <i class="fas fa-check" style="color: #667eea; margin-right: 8px"></i
+          >Monitor health symptoms and patterns
+        </li>
+        <li style="padding: 8px 0; color: #666; font-size: 0.95rem">
+          <i class="fas fa-check" style="color: #667eea; margin-right: 8px"></i
+          >Get personalized cycle predictions
+        </li>
+        <li style="padding: 8px 0; color: #666; font-size: 0.95rem">
+          <i class="fas fa-check" style="color: #667eea; margin-right: 8px"></i
+          >Receive reminders for your cycle
+        </li>
+        <li style="padding: 8px 0; color: #666; font-size: 0.95rem">
+          <i class="fas fa-check" style="color: #667eea; margin-right: 8px"></i
+          >Secure and private data storage
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

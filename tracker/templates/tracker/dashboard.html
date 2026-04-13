@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Period Tracker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-4">Welcome, {{ user.first_name|default:user.username }}! 👋</h1>
+        
+        {% if current_cycle %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Current Period</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Start Date:</strong> {{ current_cycle.start_date|date:"M d, Y" }}</p>
+                        {% if current_cycle.end_date %}
+                        <p><strong>End Date:</strong> {{ current_cycle.end_date|date:"M d, Y" }}</p>
+                        <p><strong>Duration:</strong> {{ current_cycle.get_duration }} days</p>
+                        {% else %}
+                        <p><span class="badge bg-danger">Ongoing</span></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Flow Intensity:</strong> 
+                            {% if current_cycle.flow_intensity == 'light' %}
+                            <span class="badge bg-info">Light</span>
+                            {% elif current_cycle.flow_intensity == 'moderate' %}
+                            <span class="badge bg-warning text-dark">Moderate</span>
+                            {% else %}
+                            <span class="badge bg-danger">Heavy</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <a href="{% url 'tracker:period_detail' current_cycle.pk %}" class="btn btn-sm btn-primary">View Details</a>
+                <a href="{% url 'tracker:edit_period' current_cycle.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No Active Period Detected</h4>
+            <p>Click the button below to log your current or past period.</p>
+            <a href="{% url 'tracker:log_period' %}" class="btn btn-primary">Log Period</a>
+        </div>
+        {% endif %}
+
+        {% if predicted_next_period %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">📅 Predicted Next Period</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0"><strong>Expected on:</strong> <span class="text-primary">{{ predicted_next_period|date:"M d, Y" }}</span></p>
+                {% with days_until=predicted_next_period|add:0 %}
+                <small class="text-muted">Based on your average cycle length of {{ reminder.average_cycle_length }} days</small>
+                {% endwith %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">📊 Recent Cycles</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_cycles %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Start Date</th>
+                                <th>Duration</th>
+                                <th>Intensity</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cycle in recent_cycles %}
+                            <tr>
+                                <td>{{ cycle.start_date|date:"M d, Y" }}</td>
+                                <td>{% if cycle.end_date %}{{ cycle.get_duration }} days{% else %}<span class="badge bg-danger">Ongoing</span>{% endif %}</td>
+                                <td>
+                                    {% if cycle.flow_intensity == 'light' %}
+                                    <span class="badge bg-info">Light</span>
+                                    {% elif cycle.flow_intensity == 'moderate' %}
+                                    <span class="badge bg-warning text-dark">Moderate</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">Heavy</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'tracker:period_detail' cycle.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <a href="{% url 'tracker:cycle_history' %}" class="btn btn-sm btn-outline-primary mt-3">View All History</a>
+                {% else %}
+                <p class="text-muted">No cycles logged yet. <a href="{% url 'tracker:log_period' %}">Log your first period</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="sidebar">
+            <h5 class="mb-3">Quick Actions</h5>
+            <a href="{% url 'tracker:log_period' %}" class="btn btn-primary w-100 mb-2">+ Log Period</a>
+            <a href="{% url 'tracker:settings' %}" class="btn btn-outline-primary w-100 mb-2">⚙️ Settings</a>
+            <a href="{% url 'tracker:cycle_history' %}" class="btn btn-outline-primary w-100">📋 History</a>
+        </div>
+
+        {% if user.cycle_reminder %}
+        <div class="sidebar">
+            <h5 class="mb-3">Cycle Settings</h5>
+            <p class="mb-2"><strong>Average Cycle:</strong> {{ user.cycle_reminder.average_cycle_length }} days</p>
+            <p class="mb-2"><strong>Average Period:</strong> {{ user.cycle_reminder.average_period_length }} days</p>
+            <p class="mb-2">
+                <strong>Reminders:</strong> 
+                {% if user.cycle_reminder.reminder_enabled %}
+                <span class="badge bg-success">Enabled</span>
+                {% else %}
+                <span class="badge bg-secondary">Disabled</span>
+                {% endif %}
+            </p>
+            <a href="{% url 'tracker:settings' %}" class="btn btn-sm btn-outline-primary w-100">Edit Settings</a>
+        </div>
+        {% endif %}
+
+        <div class="sidebar">
+            <h5 class="mb-3">ℹ️ Tips</h5>
+            <ul class="small text-muted">
+                <li>Track your period start and end dates to improve predictions</li>
+                <li>Log your symptoms to identify patterns</li>
+                <li>Monitor flow intensity to understand your cycle</li>
+                <li>Check your settings to set your average cycle length</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
