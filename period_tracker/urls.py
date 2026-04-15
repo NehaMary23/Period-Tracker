@@ -1,20 +1,17 @@
 """
 URL configuration for period_tracker project.
+API endpoints for Next.js frontend.
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from tracker import views as tracker_views
+from django.http import JsonResponse
+
+# API health check
+def api_health(request):
+    return JsonResponse({'status': 'ok', 'message': 'Period Tracker API'})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tracker/', include('tracker.urls')),
-    
-    # Authentication URLs
-    path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('signup/', tracker_views.signup, name='signup'),
-    
-    # Redirect root to login
-    path('', auth_views.LoginView.as_view(template_name='auth/login.html'), name='home'),
+    path('api/', api_health, name='api_health'),
+    path('api/tracker/', include('tracker.urls')),
 ]
