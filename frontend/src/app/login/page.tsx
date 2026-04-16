@@ -160,9 +160,9 @@ const features = [
   },
   {
     icon: BellIcon,
-    title: "Smart Reminders",
+    title: "Cycle Predictions",
     description:
-      "Receive notifications for upcoming periods and important dates",
+      "Accurately forecast your next period and fertile window using advanced algorithms.",
   },
   {
     icon: SmartphoneIcon,
