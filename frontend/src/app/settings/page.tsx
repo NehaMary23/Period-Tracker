@@ -336,8 +336,6 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-
-
               <div className="flex gap-4">
                 <button
                   type="submit"

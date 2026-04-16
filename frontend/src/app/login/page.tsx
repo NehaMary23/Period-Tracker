@@ -150,7 +150,8 @@ const features = [
   {
     icon: LightbulbIcon,
     title: "Wellness Journal",
-    description: "Reflect on your daily habits and track your overall wellbeing.",
+    description:
+      "Reflect on your daily habits and track your overall wellbeing.",
   },
   {
     icon: TrendingUpIcon,
