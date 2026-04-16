@@ -230,7 +230,7 @@ export default function LoginPage() {
     setErrors({});
 
     try {
-      const response = await fetch("https://period-tracker-s6yz.onrender.com", {
+      const response = await fetch("https://period-tracker-s6yz.onrender.com/api/auth/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
