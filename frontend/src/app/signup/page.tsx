@@ -132,11 +132,19 @@ export default function SignupPage() {
         setUser(data.user);
       }
       router.push("/dashboard");
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "An unexpected error occurred. Please try again.";
+    } catch (err: any) {
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (err?.response && err.response.data?.error) {
+        if (err.response.data.error.toLowerCase().includes("email already exists")) {
+          errorMessage = "This email is already registered.";
+        } else {
+          errorMessage = err.response.data.error;
+        }
+      } else if (err instanceof Error && err.message?.toLowerCase().includes("email already exists")) {
+        errorMessage = "This email is already registered.";
+      } else if (typeof err === "string" && err.toLowerCase().includes("email already exists")) {
+        errorMessage = "This email is already registered.";
+      }
       setErrors({ form: errorMessage });
     } finally {
       setLoading(false);

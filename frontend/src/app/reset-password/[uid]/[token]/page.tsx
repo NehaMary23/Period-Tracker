@@ -67,22 +67,19 @@ export default function ResetPasswordPage({
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center border border-rose-100">
         <div className="mb-8 flex flex-col items-center">
           <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-3">
-            <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
-              <path
-                stroke="#e11d48"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 17v.01M7.938 4.938a5 5 0 0 1 7.07 0c1.953 1.953 1.953 5.117 0 7.07l-5.657 5.657a4 4 0 0 1-5.657-5.657l5.657-5.657Z"
-              />
+            {/* New icon: Lock with check for reset password */}
+            <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+              <rect x="5" y="11" width="14" height="8" rx="2" fill="#fff" stroke="#e11d48" strokeWidth="2"/>
+              <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="#e11d48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <path d="M12 15v2" stroke="#e11d48" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M10.5 16.5l1 1 2-2" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <h2 className="text-3xl font-extrabold text-rose-700 mb-1 tracking-tight">
             Reset Your Password
           </h2>
           <p className="text-gray-500 text-center text-base">
-            Create a new password for your account. Make sure it is strong and
-            memorable.
+            Create a new password for your account.
           </p>
         </div>
         <form

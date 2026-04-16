@@ -271,12 +271,21 @@ export default function LoginPage() {
         setUser(data.user);
       }
       router.push("/dashboard");
-    } catch (err) {
+    } catch (err: any) {
       console.error("[LOGIN] Error:", err);
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "An unexpected error occurred. Please try again.";
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (err?.response) {
+        // If backend returns 401 or error message
+        if (err.response.status === 401 || err.response.status === 400) {
+          errorMessage = "Invalid email or password.";
+        } else if (err.response.data?.error) {
+          errorMessage = err.response.data.error;
+        }
+      } else if (err instanceof Error && err.message?.toLowerCase().includes("invalid email or password")) {
+        errorMessage = "Invalid email or password.";
+      } else if (typeof err === "string" && err.toLowerCase().includes("invalid email or password")) {
+        errorMessage = "Invalid email or password.";
+      }
       setErrors({ form: errorMessage });
     } finally {
       setLoading(false);
