@@ -116,6 +116,7 @@ LOGOUT_REDIRECT_URL = 'login'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'https://period-tracker-zeta.vercel.app',  # Vercel frontend
 ]
 FRONTEND_URL = 'http://localhost:3000'
 # Email Configuration
