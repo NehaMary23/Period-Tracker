@@ -1,3 +1,23 @@
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+# Utility function to send a styled HTML password reset email
+def send_password_reset_email(user_email, user_name, reset_link):
+    subject = "Reset Your Period Tracker Password"
+    from_email = "no-reply@periodtracker.com"
+    to = [user_email]
+    year = timezone.now().year
+
+    html_content = render_to_string("emails/password_reset.html", {
+        "user_name": user_name,
+        "reset_link": reset_link,
+        "year": year,
+    })
+    text_content = strip_tags(html_content)
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
@@ -792,19 +812,11 @@ def api_password_reset_request(request):
         token_str = PasswordResetToken.generate_token(user)
         reset_url = f"{django_settings.FRONTEND_URL}/reset-password?token={token_str}"
 
-        send_mail(
-            subject='Reset Your Period Tracker Password',
-            message=(
-                f"Hi {user.username},\n\n"
-                f"Click the link below to reset your password:\n\n"
-                f"{reset_url}\n\n"
-                f"This link expires in 1 hour.\n"
-                f"If you didn't request this, you can safely ignore this email."
-            ),
-            from_email=django_settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
-            fail_silently=True,
-        )
+            send_password_reset_email(
+                user_email=user.email,
+                user_name=user.username,
+                reset_link=reset_url
+            )
     except User.DoesNotExist:
         pass  # Don't reveal whether email exists
 
