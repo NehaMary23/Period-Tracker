@@ -1,3 +1,5 @@
+# Fix admin logout reverse error by specifying login URL
+LOGIN_URL = '/admin/login/'
 """
 Django settings for period_tracker project.
 """

@@ -22,8 +22,7 @@ def homepage(request):
         <div class='container'>
             <h1>Welcome to Period Tracker</h1>
             <p>Your trusted companion for menstrual health tracking.<br>Use the web app to log periods, view predictions, and manage your health with confidence.</p>
-            <a class='btn' href='/admin/'>Admin Login</a>
-            <a class='admin-link' href='/api/health/'>API Health Check</a>
+            <!-- Admin Login and API Health Check links removed as requested -->
         </div>
     </body>
     </html>
