@@ -1,5 +1,3 @@
-# Redirect to admin login after logout
-LOGOUT_REDIRECT_URL = '/admin/login/'
 # Fix admin logout reverse error by specifying login URL
 LOGIN_URL = '/admin/login/'
 """
