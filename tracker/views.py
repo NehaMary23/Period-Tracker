@@ -291,25 +291,27 @@ def api_signup(request):
         username = data.get('username', '').strip()
         email = data.get('email', '').strip()
         password = data.get('password', '')
-        
+        print(f"[SIGNUP] username={username}, email={email}, password_len={len(password)}")
         # Validation
         if not username:
+            print("[SIGNUP] Username missing")
             return JsonResponse({'error': 'Username is required'}, status=400)
         if not email:
+            print("[SIGNUP] Email missing")
             return JsonResponse({'error': 'Email is required'}, status=400)
         if not password or len(password) < 8:
+            print("[SIGNUP] Password too short")
             return JsonResponse({'error': 'Password must be at least 8 characters'}, status=400)
-        
         # Check if email already exists (email must be unique)
         if User.objects.filter(email=email).exists():
+            print("[SIGNUP] Email already exists")
             return JsonResponse({'error': 'Email already exists'}, status=400)
-        
         # Create user (username can be duplicated)
         user = User.objects.create_user(username=username, email=email, password=password)
-        
+        print(f"[SIGNUP] User created: id={user.id}, username={user.username}, email={user.email}")
         # Generate and store token
         token_str = UserToken.generate_token(user)
-        
+        print(f"[SIGNUP] Token generated: {token_str[:8]}...")
         return JsonResponse({
             'token': token_str,
             'user': {
@@ -335,27 +337,29 @@ def api_login(request):
         data = json.loads(request.body)
         email = data.get('email', '').strip()
         password = data.get('password', '')
-        
+        print(f"[LOGIN] email={email}, password_len={len(password)}")
         # Validation
         if not email:
+            print("[LOGIN] Email missing")
             return JsonResponse({'error': 'Email is required'}, status=400)
         if not password:
+            print("[LOGIN] Password missing")
             return JsonResponse({'error': 'Password is required'}, status=400)
-        
         # Get user by email
         try:
             user = User.objects.get(email=email)
+            print(f"[LOGIN] User found: id={user.id}, username={user.username}, email={user.email}")
         except User.DoesNotExist:
+            print("[LOGIN] User not found for email")
             return JsonResponse({'error': 'Invalid email or password'}, status=401)
-        
         # Authenticate user
         user = authenticate(username=user.username, password=password)
         if not user:
+            print("[LOGIN] Authentication failed for user")
             return JsonResponse({'error': 'Invalid email or password'}, status=401)
-        
         # Generate and store token
         token_str = UserToken.generate_token(user)
-        
+        print(f"[LOGIN] Token generated: {token_str[:8]}...")
         return JsonResponse({
             'token': token_str,
             'user': {
@@ -364,10 +368,11 @@ def api_login(request):
                 'email': user.email,
             }
         }, status=200)
-    
     except json.JSONDecodeError:
+        print("[LOGIN] Invalid JSON")
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     except Exception as e:
+        print(f"[LOGIN] Exception: {e}")
         import traceback
         traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)

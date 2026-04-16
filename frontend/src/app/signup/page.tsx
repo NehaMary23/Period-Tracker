@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { isAuthenticated, setToken, setUser } from "@/lib/auth";
+import { authAPI } from "@/lib/api";
 
 interface FormErrors {
   username?: string;
@@ -13,14 +14,7 @@ interface FormErrors {
   form?: string;
 }
 
-interface SignupResponse {
-  token: string;
-  user?: {
-    id: number;
-    email: string;
-    username?: string;
-  };
-}
+import type { SignupResponse } from "@/types/auth";
 
 const CheckIcon = () => (
   <svg
@@ -122,30 +116,11 @@ export default function SignupPage() {
     setErrors({});
 
     try {
-      const response = await fetch("https://period-tracker-s6yz.onrender.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        setErrors({
-          form:
-            data.message ||
-            data.error ||
-            "Signup failed. Please check your information and try again.",
-        });
-        return;
-      }
-
-      const data: SignupResponse = await response.json();
+      const data: SignupResponse = await authAPI.signup(
+        formData.email,
+        formData.password,
+        formData.username
+      );
 
       if (!data.token) {
         setErrors({ form: "No token received from server" });

@@ -3,6 +3,7 @@
  * Handles all communication with the Django backend
  */
 
+import type { SignupResponse } from "@/types/auth";
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "https://period-tracker-s6yz.onrender.com";
 
@@ -105,7 +106,7 @@ export const authAPI = {
     ),
 
   signup: (email: string, password: string, username: string) =>
-    apiRequest<{ token: string; user: Record<string, unknown> }>(
+    apiRequest<SignupResponse>(
       "/auth/signup/",
       {
         method: "POST",

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { isAuthenticated, setToken, setUser } from "@/lib/auth";
+import { authAPI } from "@/lib/api";
 
 interface FormErrors {
   email?: string;
@@ -32,18 +33,13 @@ const ChartIcon = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
     />
   </svg>
 );
 
 const LightbulbIcon = () => (
-  <svg
-    className="w-full h-full"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-  >
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -54,12 +50,7 @@ const LightbulbIcon = () => (
 );
 
 const TrendingUpIcon = () => (
-  <svg
-    className="w-full h-full"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-  >
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -70,12 +61,7 @@ const TrendingUpIcon = () => (
 );
 
 const BellIcon = () => (
-  <svg
-    className="w-full h-full"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-  >
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -177,6 +163,18 @@ const features = [
 ];
 
 export default function LoginPage() {
+    // Input change handler
+    const handleInputChange = (field: "email" | "password", value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+      // Clear field-specific error when user starts typing
+      if (errors[field]) {
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors[field];
+          return newErrors;
+        });
+      }
+    };
   const router = useRouter();
 
   // Form state
@@ -229,43 +227,31 @@ export default function LoginPage() {
     setLoading(true);
     setErrors({});
 
+    // Debug: log before API call
+    console.log("[LOGIN] Submitting login for:", formData.email);
+
+    // Add a timeout in case the API hangs
+    const loginPromise = authAPI.login(formData.email, formData.password);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Request timed out after 10 seconds")), 10000)
+    );
+
     try {
-      const response = await fetch(
-        "https://period-tracker-s6yz.onrender.com/api/auth/login/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        },
-      );
-
-      if (!response.ok) {
-        const data = await response.json();
-        setErrors({
-          form:
-            data.message ||
-            data.error ||
-            "Login failed. Please check your credentials.",
-        });
-        return;
-      }
-
-      const data: LoginResponse = await response.json();
+      const data = (await Promise.race([loginPromise, timeoutPromise])) as LoginResponse;
+      console.log("[LOGIN] API response:", data);
 
       if (!data.token) {
         setErrors({ form: "No token received from server" });
         return;
       }
 
-      // Store token and user data, then redirect
       setToken(data.token);
       if (data.user) {
         setUser(data.user);
       }
       router.push("/dashboard");
     } catch (err) {
+      console.error("[LOGIN] Error:", err);
       const errorMessage =
         err instanceof Error
           ? err.message
@@ -273,19 +259,6 @@ export default function LoginPage() {
       setErrors({ form: errorMessage });
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Input change handler
-  const handleInputChange = (field: "email" | "password", value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear field-specific error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
     }
   };
 
