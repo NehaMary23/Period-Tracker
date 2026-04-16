@@ -10,7 +10,10 @@ from django.http import JsonResponse
 def api_health(request):
     return JsonResponse({'status': 'ok', 'message': 'Period Tracker API'})
 
+from . import views
+
 urlpatterns = [
+    path('', views.homepage, name='homepage'),
     path('admin/', admin.site.urls),
     path('api/health/', api_health, name='api_health'),  # ✅ separate route
     path('api/', include('tracker.urls')),               # ✅ keep API routes
