@@ -230,13 +230,16 @@ export default function LoginPage() {
     setErrors({});
 
     try {
-      const response = await fetch("https://period-tracker-s6yz.onrender.com/api/auth/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://period-tracker-s6yz.onrender.com/api/auth/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
       if (!response.ok) {
         const data = await response.json();
