@@ -134,14 +134,19 @@ export default function SignupPage() {
       router.push("/dashboard");
     } catch (err: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
+      // Always check for duplicate email errors in all possible places
+      const isDuplicateEmail = (msg: string | undefined) =>
+        !!msg && (
+          msg.toLowerCase().includes("email already exists") ||
+          msg.toLowerCase().includes("duplicate email") ||
+          msg.toLowerCase().includes("user with this email")
+        );
+
       // Try to extract error from fetch response if available
       if (err && err.response && typeof err.response.json === "function") {
         try {
           const errorData = await err.response.json();
-          if (
-            errorData?.error &&
-            errorData.error.toLowerCase().includes("email already exists")
-          ) {
+          if (isDuplicateEmail(errorData?.error)) {
             errorMessage = "An account with that email already exists.";
           } else if (errorData?.error) {
             errorMessage = errorData.error;
@@ -149,18 +154,15 @@ export default function SignupPage() {
         } catch {}
       }
       if (
-        err?.response?.data?.error &&
-        err.response.data.error.toLowerCase().includes("email already exists")
+        isDuplicateEmail(err?.response?.data?.error)
       ) {
         errorMessage = "An account with that email already exists.";
       } else if (
-        err instanceof Error &&
-        err.message?.toLowerCase().includes("email already exists")
+        err instanceof Error && isDuplicateEmail(err.message)
       ) {
         errorMessage = "An account with that email already exists.";
       } else if (
-        typeof err === "string" &&
-        err.toLowerCase().includes("email already exists")
+        typeof err === "string" && isDuplicateEmail(err)
       ) {
         errorMessage = "An account with that email already exists.";
       }
