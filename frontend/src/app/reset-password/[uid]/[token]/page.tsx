@@ -27,13 +27,12 @@ export default function ResetPasswordPage({
     }
     setLoading(true);
     try {
-      // Some Django backends expect 'uid' as 'uid' or 'uidb64'. Try both if needed.
+      // Try with 'uidb64' instead of 'uid'
       const payload = {
-        uid: params.uid,
+        uidb64: params.uid,
         token: params.token,
         password,
       };
-      // Debug log for payload
       console.log("Reset password payload:", payload);
       const res = await fetch(
         `https://period-tracker-kkyh.onrender.com/api/auth/password-reset-confirm/`,
@@ -44,12 +43,13 @@ export default function ResetPasswordPage({
         }
       );
       const data = await res.json();
+      console.log("Reset password response:", data);
       if (res.ok) {
         setMsg("Password reset successful! You can now log in.");
         setSuccess(true);
         setTimeout(() => router.push("/login"), 2000);
       } else {
-        setMsg(data.error || "Failed to reset password.");
+        setMsg(data.error || data.detail || JSON.stringify(data) || "Failed to reset password.");
       }
     } catch (err) {
       setMsg("Network error. Please try again.");
