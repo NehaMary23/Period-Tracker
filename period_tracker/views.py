@@ -27,4 +27,4 @@ def homepage(request):
         </div>
     </body>
     </html>
-    """
+    """)
