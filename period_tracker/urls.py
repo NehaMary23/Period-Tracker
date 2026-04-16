@@ -12,6 +12,6 @@ def api_health(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', api_health, name='api_health'),
-    path('api/tracker/', include('tracker.urls')),
+    path('api/health/', api_health, name='api_health'),  # ✅ separate route
+    path('api/', include('tracker.urls')),               # ✅ keep API routes
 ]

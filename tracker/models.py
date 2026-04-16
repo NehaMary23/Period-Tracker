@@ -1,6 +1,38 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+import secrets
+
+
+class UserToken(models.Model):
+    """Model to store user authentication tokens"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='auth_token')
+    token = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "User Token"
+        verbose_name_plural = "User Tokens"
+    
+    def __str__(self):
+        return f"Token for {self.user.username}"
+    
+    @classmethod
+    def generate_token(cls, user):
+        """Generate and store a new token for user"""
+        token_str = secrets.token_hex(32)
+        cls.objects.filter(user=user).delete()  # Remove old token
+        token_obj = cls.objects.create(user=user, token=token_str)
+        return token_str
+    
+    @classmethod
+    def validate_token(cls, token_str):
+        """Validate token and return user if valid"""
+        try:
+            token_obj = cls.objects.get(token=token_str)
+            return token_obj.user
+        except cls.DoesNotExist:
+            return None
 
 class PeriodCycle(models.Model):
     """Model to track period cycles"""
@@ -86,3 +118,58 @@ class CycleReminder(models.Model):
 
     def __str__(self):
         return f"Reminder Settings for {self.user.username}"
+
+
+class NotificationLog(models.Model):
+    """Model to track sent notifications"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_logs')
+    notification_type = models.CharField(
+        max_length=30,
+        choices=[
+            ('period_reminder_3days', 'Period Reminder - 3 Days Before'),
+            ('period_reminder_today', 'Period Reminder - Today'),
+            ('period_late_alert', 'Late Period Alert'),
+            ('symptom_reminder', 'Symptom Reminder'),
+            ('cycle_prediction', 'Cycle Prediction'),
+        ],
+        default='period_reminder_3days'
+    )
+    predicted_date = models.DateField(help_text="The predicted period date")
+    sent_date = models.DateTimeField(auto_now_add=True)
+    recipient_email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    success = models.BooleanField(default=True)
+    error_message = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        ordering = ['-sent_date']
+        verbose_name = "Notification Log"
+        verbose_name_plural = "Notification Logs"
+
+    def __str__(self):
+        return f"{self.notification_type} for {self.user.username} on {self.sent_date.date()}"
+
+class PasswordResetToken(models.Model):
+    """Model to store password reset tokens"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='password_reset_tokens')
+    token = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Password Reset Token"
+        verbose_name_plural = "Password Reset Tokens"
+
+    def __str__(self):
+        return f"Reset token for {self.user.username}"
+
+    def is_expired(self):
+        return timezone.now() > self.created_at + timezone.timedelta(hours=1)
+
+    @classmethod
+    def generate_token(cls, user):
+        """Delete old tokens and create a new one"""
+        cls.objects.filter(user=user).delete()
+        token_str = secrets.token_hex(32)
+        cls.objects.create(user=user, token=token_str)
+        return token_str

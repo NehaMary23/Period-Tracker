@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
-import { isAuthenticated, setToken } from "@/lib/auth";
+import { isAuthenticated, setToken, setUser } from "@/lib/auth";
 
 interface FormErrors {
   email?: string;
@@ -184,6 +184,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotMsg, setForgotMsg] = useState("");
 
   // Redirect authenticated users
   useEffect(() => {
@@ -255,8 +256,11 @@ export default function LoginPage() {
         return;
       }
 
-      // Store token and redirect
+      // Store token and user data, then redirect
       setToken(data.token);
+      if (data.user) {
+        setUser(data.user);
+      }
       router.push("/dashboard");
     } catch (err) {
       const errorMessage =
@@ -285,23 +289,30 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-md">
+        <div className="max-w-7xl mx-auto px-8 py-4">
+          <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <span className="text-2xl font-semibold text-rose-600">PT</span>
-              <span className="font-semibold text-lg text-gray-900 tracking-tight">
-                Period Tracker
-              </span>
+              <div className="w-10 h-10 bg-rose-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-lg">PT</span>
+              </div>
+              <div>
+                <div className="text-xl font-bold text-gray-900">
+                  Period Tracker
+                </div>
+                <div className="text-xs text-gray-500 font-medium">
+                  Health Tracking
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-6">
               <Link
                 href="/signup"
-                className="text-gray-600 hover:text-gray-900 font-medium transition duration-200 text-sm"
+                className="py-3 px-6 rounded-lg font-semibold transition duration-200 text-gray-700 hover:bg-gray-100 hover:text-rose-600"
               >
                 Create Account
               </Link>
-              <button className="bg-rose-600 hover:bg-rose-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 text-sm shadow-sm hover:shadow-md">
+              <button className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-sm hover:shadow-md">
                 Sign In
               </button>
             </div>
@@ -444,6 +455,42 @@ export default function LoginPage() {
                   )}
                 </div>
 
+                {/* Forgot Password Link */}
+                <div className="flex justify-start -mt-2 mb-2">
+                  <button
+                    type="button"
+                    className="text-sm text-rose-600 hover:text-rose-700 font-semibold transition duration-200 focus:outline-none cursor-pointer"
+                    onClick={async () => {
+                      if (!formData.email) {
+                        setForgotMsg("Please enter your email address above.");
+                        return;
+                      }
+                      setForgotMsg("");
+                      try {
+                        const res = await fetch("http://localhost:8000/api/auth/password-reset/", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ email: formData.email })
+                        });
+                        if (res.ok) {
+                          setForgotMsg(`A mail has been sent to "${formData.email}" with instructions to reset your password.`);
+                        } else {
+                          const data = await res.json();
+                          setForgotMsg(data.error || "Failed to send reset email. Please try again.");
+                        }
+                      } catch (err) {
+                        setForgotMsg("Failed to send reset email. Please try again.");
+                      }
+                    }}
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                {forgotMsg && (
+                  <div className="text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded px-3 py-2 mb-2 font-medium">
+                    {forgotMsg}
+                  </div>
+                )}
                 {/* Submit Button */}
                 <button
                   type="submit"
@@ -516,45 +563,20 @@ export default function LoginPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16 border-t border-gray-800">
+      <footer className="bg-gray-900 text-white py-6 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            {/* Brand */}
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl font-semibold text-rose-500">PT</span>
-                <span className="font-bold text-lg">Period Tracker</span>
-              </div>
-              <p className="text-gray-400 text-sm font-light">
-                Track your cycle. Understand your body. Take control of your
-                health.
-              </p>
-            </div>
-          </div>
-
-          {/* Bottom Footer */}
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
+          <div className="pt-2 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
             <p className="font-light">
               &copy; 2026 Period Tracker. All rights reserved.
             </p>
-            <div className="flex gap-8 mt-4 md:mt-0">
+            <div className="mt-4 md:mt-0">
               <Link
-                href="#"
+                href="https://neha-portfolio-orcin.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-white transition duration-200 font-light"
               >
-                Twitter
-              </Link>
-              <Link
-                href="#"
-                className="hover:text-white transition duration-200 font-light"
-              >
-                Facebook
-              </Link>
-              <Link
-                href="#"
-                className="hover:text-white transition duration-200 font-light"
-              >
-                Instagram
+                Neha Mary Pramod
               </Link>
             </div>
           </div>

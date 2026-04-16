@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
 import { periodAPI } from "@/lib/api";
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { History } from "lucide-react";
+import Footer from "@/components/Footer";
 
 interface Period {
   id: number;
@@ -28,7 +31,7 @@ export default function CycleHistoryPage() {
     const fetchPeriods = async () => {
       try {
         const data = await periodAPI.list();
-        setPeriods(data);
+        setPeriods(data as unknown as Period[]);
       } catch (error) {
         console.error("Failed to fetch periods:", error);
       } finally {
@@ -41,124 +44,113 @@ export default function CycleHistoryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg text-gray-600">Loading...</div>
-      </div>
+      <>
+        <Navbar />
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <div className="inline-block mb-4">
+              <div className="w-12 h-12 border-4 border-gray-300 border-t-rose-600 rounded-full animate-spin"></div>
+            </div>
+            <div className="text-lg font-semibold text-gray-900">
+              Loading your cycle history...
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Period Tracker</h1>
-          <nav className="space-x-6">
-            <Link
-              href="/dashboard"
-              className="text-gray-600 hover:text-gray-900 font-medium"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/log-period"
-              className="text-gray-600 hover:text-gray-900 font-medium"
-            >
-              Log Period
-            </Link>
-            <Link
-              href="/cycle-history"
-              className="text-pink-600 hover:text-pink-700 font-medium"
-            >
-              History
-            </Link>
-            <Link
-              href="/settings"
-              className="text-gray-600 hover:text-gray-900 font-medium"
-            >
-              Settings
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900">Cycle History</h2>
-          </div>
-
-          <div className="divide-y divide-gray-200">
-            {periods.length > 0 ? (
-              periods.map((period) => (
-                <div
-                  key={period.id}
-                  className="px-6 py-6 hover:bg-gray-50 transition"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar />
+      <div className="flex-1">
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-6 py-8">
+          {periods.length > 0 ? (
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                {periods.map((period) => (
+                  <div
+                    key={period.id}
+                    className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition duration-200 bg-white"
+                  >
+                    <div className="mb-4">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">
                         {new Date(period.start_date).toLocaleDateString(
                           "en-US",
                           {
                             year: "numeric",
-                            month: "long",
+                            month: "short",
                             day: "numeric",
                           },
                         )}
                       </h3>
-                      <div className="space-y-2">
-                        <p className="text-gray-700">
-                          <span className="font-medium">Duration:</span>{" "}
-                          {new Date(period.start_date).toLocaleDateString()} to{" "}
-                          {new Date(period.end_date).toLocaleDateString()}
-                        </p>
-                        <p className="text-gray-700">
-                          <span className="font-medium">Flow Intensity:</span>{" "}
-                          <span className="capitalize">
-                            {period.flow_intensity}
+                      <p className="text-sm text-gray-600">
+                        {new Date(period.start_date).toLocaleDateString()} to{" "}
+                        {new Date(period.end_date).toLocaleDateString()}
+                      </p>
+                    </div>
+
+                    <div className="space-y-2 mb-4">
+                      <div>
+                        <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Flow Intensity
+                        </span>
+                        <div className="mt-1">
+                          <span
+                            className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${
+                              period.flow_intensity === "light"
+                                ? "bg-blue-100 text-blue-700"
+                                : period.flow_intensity === "moderate"
+                                  ? "bg-rose-100 text-rose-700"
+                                  : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {period.flow_intensity.charAt(0).toUpperCase() +
+                              period.flow_intensity.slice(1)}
                           </span>
-                        </p>
-                        {period.notes && (
-                          <p className="text-gray-700">
-                            <span className="font-medium">Notes:</span>{" "}
+                        </div>
+                      </div>
+
+                      {period.notes && (
+                        <div>
+                          <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                            Notes
+                          </span>
+                          <p className="mt-1 text-sm text-gray-600 line-clamp-2">
                             {period.notes}
                           </p>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="ml-4 space-x-2">
-                      <Link
-                        href={`/period/${period.id}`}
-                        className="bg-pink-50 text-pink-600 hover:bg-pink-100 px-3 py-2 rounded font-medium transition"
-                      >
-                        View
-                      </Link>
-                      <Link
-                        href={`/period/${period.id}/edit`}
-                        className="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded font-medium transition"
-                      >
-                        Edit
-                      </Link>
-                    </div>
+
+                    <Link
+                      href={`/edit-period/${period.id}`}
+                      className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 text-center block"
+                    >
+                      Edit
+                    </Link>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="px-6 py-12 text-center">
-                <p className="text-gray-600 mb-4">No periods logged yet</p>
-                <Link
-                  href="/log-period"
-                  className="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 font-medium transition"
-                >
-                  Log Your First Period
-                </Link>
+                ))}
               </div>
-            )}
-          </div>
-        </div>
-      </main>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-12 text-center">
+              <History size={48} className="mx-auto mb-4 text-gray-400" />
+              <p className="text-gray-600 mb-6 text-lg">
+                No periods logged yet
+              </p>
+              <Link
+                href="/log-period"
+                className="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 inline-block"
+              >
+                Log Your First Period
+              </Link>
+            </div>
+          )}
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 }

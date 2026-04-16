@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PeriodCycle, HealthSymptom, CycleReminder
+from .models import PeriodCycle, HealthSymptom, CycleReminder, NotificationLog
 
 @admin.register(PeriodCycle)
 class PeriodCycleAdmin(admin.ModelAdmin):
@@ -62,3 +62,31 @@ class CycleReminderAdmin(admin.ModelAdmin):
             'fields': ('reminder_enabled',)
         }),
     )
+
+
+@admin.register(NotificationLog)
+class NotificationLogAdmin(admin.ModelAdmin):
+    list_display = ('user', 'notification_type', 'predicted_date', 'sent_date', 'success')
+    list_filter = ('notification_type', 'success', 'sent_date')
+    search_fields = ('user__username', 'recipient_email')
+    readonly_fields = ('user', 'notification_type', 'predicted_date', 'sent_date', 'recipient_email', 'subject', 'message', 'error_message')
+    fieldsets = (
+        ('Notification Details', {
+            'fields': ('user', 'notification_type', 'predicted_date')
+        }),
+        ('Email Information', {
+            'fields': ('recipient_email', 'subject', 'message')
+        }),
+        ('Status', {
+            'fields': ('success', 'error_message')
+        }),
+        ('Timestamps', {
+            'fields': ('sent_date',)
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
