@@ -149,8 +149,8 @@ const features = [
   },
   {
     icon: LightbulbIcon,
-    title: "Symptom Logging",
-    description: "Log daily symptoms and mood to understand your body better",
+    title: "Wellness Journal",
+    description: "Reflect on your daily habits and track your overall wellbeing.",
   },
   {
     icon: TrendingUpIcon,
