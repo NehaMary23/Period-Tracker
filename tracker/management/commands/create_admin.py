@@ -7,7 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
         username = 'NehaAdmin'
-        password = 'greha@123456'  # Change this after first login
+        password = 'adminneha@123456'  # Change this after first login
         email = 'nehapramo05@gmail.com'  # Change this to your email
         if not User.objects.filter(username=username).exists():
             User.objects.create_superuser(username=username, email=email, password=password)
