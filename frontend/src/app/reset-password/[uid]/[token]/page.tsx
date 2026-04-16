@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ResetPasswordPage({
   params,
 }: {
-  params: { uid: string; token: string };
+  params: Promise<{ uid: string; token: string }>;
 }) {
+  const { uid, token } = use(params);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -27,10 +28,9 @@ export default function ResetPasswordPage({
     }
     setLoading(true);
     try {
-      // Try with 'uidb64' instead of 'uid'
       const payload = {
-        uidb64: params.uid,
-        token: params.token,
+        uidb64: uid,
+        token: token,
         password,
       };
       console.log("Reset password payload:", payload);
@@ -40,7 +40,7 @@ export default function ResetPasswordPage({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
-        }
+        },
       );
       const data = await res.json();
       console.log("Reset password response:", data);
@@ -49,7 +49,12 @@ export default function ResetPasswordPage({
         setSuccess(true);
         setTimeout(() => router.push("/login"), 2000);
       } else {
-        setMsg(data.error || data.detail || JSON.stringify(data) || "Failed to reset password.");
+        setMsg(
+          data.error ||
+            data.detail ||
+            JSON.stringify(data) ||
+            "Failed to reset password.",
+        );
       }
     } catch (err) {
       setMsg("Network error. Please try again.");
