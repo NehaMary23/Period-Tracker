@@ -3,12 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function ResetPasswordPage({
-  params,
-}: {
-  params: { uid: string; token: string };
-}) {
-
+export default function ResetPasswordPage({ params }: { params: { uid: string; token: string } }) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [msg, setMsg] = useState("");
@@ -53,8 +48,9 @@ export default function ResetPasswordPage({
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        aria-label="Reset Password Form"
       >
-        <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Reset Password</h2>
         <div className="relative mb-4">
           <input
             type={showPassword ? "text" : "password"}
@@ -65,12 +61,13 @@ export default function ResetPasswordPage({
             minLength={8}
             required
             disabled={success}
+            aria-label="New password"
           />
           <button
             type="button"
             className="absolute right-2 top-2 text-xs text-gray-500"
             tabIndex={-1}
-            onClick={() => setShowPassword((v) => !v)}
+            onClick={() => setShowPassword((v: boolean) => !v)}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? "Hide" : "Show"}
@@ -80,10 +77,19 @@ export default function ResetPasswordPage({
           type="submit"
           className="w-full bg-rose-600 text-white py-2 rounded font-semibold"
           disabled={loading || success}
+          aria-disabled={loading || success}
         >
           {loading ? "Resetting..." : success ? "Password Reset" : "Reset Password"}
         </button>
-        {msg && <div className={`mt-4 text-center ${success ? "text-green-600" : "text-rose-600"}`}>{msg}</div>}
+        {msg && (
+          <div
+            className={`mt-4 text-center ${success ? "text-green-600" : "text-rose-600"}`}
+            role="alert"
+            aria-live="polite"
+          >
+            {msg}
+          </div>
+        )}
       </form>
     </div>
   );
