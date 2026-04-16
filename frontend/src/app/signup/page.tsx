@@ -134,16 +134,23 @@ export default function SignupPage() {
       router.push("/dashboard");
     } catch (err: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
-      if (err?.response && err.response.data?.error) {
-        if (err.response.data.error.toLowerCase().includes("email already exists")) {
-          errorMessage = "This email is already registered.";
-        } else {
-          errorMessage = err.response.data.error;
-        }
+      // Try to extract error from fetch response if available
+      if (err && err.response && typeof err.response.json === "function") {
+        try {
+          const errorData = await err.response.json();
+          if (errorData?.error && errorData.error.toLowerCase().includes("email already exists")) {
+            errorMessage = "An account with that email already exists.";
+          } else if (errorData?.error) {
+            errorMessage = errorData.error;
+          }
+        } catch {}
+      }
+      if (err?.response?.data?.error && err.response.data.error.toLowerCase().includes("email already exists")) {
+        errorMessage = "An account with that email already exists.";
       } else if (err instanceof Error && err.message?.toLowerCase().includes("email already exists")) {
-        errorMessage = "This email is already registered.";
+        errorMessage = "An account with that email already exists.";
       } else if (typeof err === "string" && err.toLowerCase().includes("email already exists")) {
-        errorMessage = "This email is already registered.";
+        errorMessage = "An account with that email already exists.";
       }
       setErrors({ form: errorMessage });
     } finally {

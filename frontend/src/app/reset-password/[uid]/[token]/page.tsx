@@ -67,12 +67,11 @@ export default function ResetPasswordPage({
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center border border-rose-100">
         <div className="mb-8 flex flex-col items-center">
           <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-3">
-            {/* New icon: Lock with check for reset password */}
+            {/* Lock icon only */}
             <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
               <rect x="5" y="11" width="14" height="8" rx="2" fill="#fff" stroke="#e11d48" strokeWidth="2"/>
               <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="#e11d48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
               <path d="M12 15v2" stroke="#e11d48" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M10.5 16.5l1 1 2-2" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <h2 className="text-3xl font-extrabold text-rose-700 mb-1 tracking-tight">

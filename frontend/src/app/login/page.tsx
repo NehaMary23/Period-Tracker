@@ -274,14 +274,25 @@ export default function LoginPage() {
     } catch (err: any) {
       console.error("[LOGIN] Error:", err);
       let errorMessage = "An unexpected error occurred. Please try again.";
-      if (err?.response) {
-        // If backend returns 401 or error message
-        if (err.response.status === 401 || err.response.status === 400) {
-          errorMessage = "Invalid email or password.";
-        } else if (err.response.data?.error) {
-          errorMessage = err.response.data.error;
-        }
-      } else if (err instanceof Error && err.message?.toLowerCase().includes("invalid email or password")) {
+
+      // Try to extract error from fetch response if available
+      if (err && err.response && typeof err.response.json === "function") {
+        try {
+          const errorData = await err.response.json();
+          if (errorData?.error && errorData.error.toLowerCase().includes("invalid email or password")) {
+            errorMessage = "Invalid email or password.";
+          } else if (errorData?.error) {
+            errorMessage = errorData.error;
+          }
+        } catch {}
+      }
+
+      // If backend returns 401 or 400, always show invalid credentials
+      if (err?.response?.status === 401 || err?.response?.status === 400) {
+        errorMessage = "Invalid email or password.";
+      }
+      // If error message contains invalid email or password
+      else if (err instanceof Error && err.message?.toLowerCase().includes("invalid email or password")) {
         errorMessage = "Invalid email or password.";
       } else if (typeof err === "string" && err.toLowerCase().includes("invalid email or password")) {
         errorMessage = "Invalid email or password.";
