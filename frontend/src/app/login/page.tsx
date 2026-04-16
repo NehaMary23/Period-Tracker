@@ -465,7 +465,7 @@ export default function LoginPage() {
                       setForgotMsg("");
                       try {
                         const res = await fetch(
-                          "https://period-tracker-kkyh.onrender.com",
+                          "https://period-tracker-kkyh.onrender.com/api/auth/password-reset/",
                           {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },

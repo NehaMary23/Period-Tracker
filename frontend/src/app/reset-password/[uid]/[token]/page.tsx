@@ -16,11 +16,14 @@ export default function ResetPasswordPage({
     e.preventDefault();
     setLoading(true);
     setMsg("");
-    const res = await fetch(`https://period-tracker-kkyh.onrender.com`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
+    const res = await fetch(
+      `https://period-tracker-kkyh.onrender.com/api/auth/password-reset-confirm/`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: params.token, password }),
+      },
+    );
     const data = await res.json();
     if (res.ok) {
       setMsg("Password reset successful! You can now log in.");
