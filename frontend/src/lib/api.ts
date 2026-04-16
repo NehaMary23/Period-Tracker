@@ -5,7 +5,7 @@
 
 import type { SignupResponse } from "@/types/auth";
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://period-tracker-s6yz.onrender.com";
+  process.env.NEXT_PUBLIC_API_URL || "https://period-tracker-kkyh.onrender.com";
 
 export class AuthenticationError extends Error {
   constructor(message: string) {

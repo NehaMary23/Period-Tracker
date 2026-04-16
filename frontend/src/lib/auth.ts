@@ -45,7 +45,7 @@ export const isAuthenticated = (): boolean => {
 
 export const logout = async (): Promise<void> => {
   try {
-    await fetch("https://period-tracker-s6yz.onrender.com", {
+    await fetch("https://period-tracker-kkyh.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

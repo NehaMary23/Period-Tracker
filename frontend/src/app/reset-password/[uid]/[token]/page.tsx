@@ -16,7 +16,7 @@ export default function ResetPasswordPage({
     e.preventDefault();
     setLoading(true);
     setMsg("");
-    const res = await fetch(`https://period-tracker-s6yz.onrender.com`, {
+    const res = await fetch(`https://period-tracker-kkyh.onrender.com`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),

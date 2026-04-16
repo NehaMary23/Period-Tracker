@@ -465,7 +465,7 @@ export default function LoginPage() {
                       setForgotMsg("");
                       try {
                         const res = await fetch(
-                          "https://period-tracker-s6yz.onrender.com",
+                          "https://period-tracker-kkyh.onrender.com",
                           {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
