@@ -810,13 +810,16 @@ def api_password_reset_request(request):
     try:
         user = User.objects.get(email=email)
         token_str = PasswordResetToken.generate_token(user)
-        reset_url = f"{django_settings.FRONTEND_URL}/reset-password?token={token_str}"
+        # Encode the user's id in base64 (like Django's default)
+        import base64
+        uid = base64.urlsafe_b64encode(str(user.id).encode()).decode().rstrip('=')
+        reset_url = f"{django_settings.FRONTEND_URL}/reset-password/{uid}/{token_str}/"
 
-            send_password_reset_email(
-                user_email=user.email,
-                user_name=user.username,
-                reset_link=reset_url
-            )
+        send_password_reset_email(
+            user_email=user.email,
+            user_name=user.username,
+            reset_link=reset_url
+        )
     except User.DoesNotExist:
         pass  # Don't reveal whether email exists
 
