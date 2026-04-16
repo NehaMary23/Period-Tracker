@@ -2,7 +2,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function ResetPasswordPage({ params }: { params: { uid: string, token: string } }) {
+export default function ResetPasswordPage({
+  params,
+}: {
+  params: { uid: string; token: string };
+}) {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -12,7 +16,7 @@ export default function ResetPasswordPage({ params }: { params: { uid: string, t
     e.preventDefault();
     setLoading(true);
     setMsg("");
-    const res = await fetch(`http://localhost:8000/api/auth/password-reset-confirm/${params.uid}/${params.token}/`, {
+    const res = await fetch(`https://period-tracker-s6yz.onrender.com`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
@@ -29,14 +33,17 @@ export default function ResetPasswordPage({ params }: { params: { uid: string, t
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+      >
         <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
         <input
           type="password"
           className="w-full border px-4 py-2 rounded mb-4"
           placeholder="New password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           minLength={8}
           required
         />

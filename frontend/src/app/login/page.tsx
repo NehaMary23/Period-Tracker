@@ -230,7 +230,7 @@ export default function LoginPage() {
     setErrors({});
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/login/", {
+      const response = await fetch("https://period-tracker-s6yz.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -467,19 +467,29 @@ export default function LoginPage() {
                       }
                       setForgotMsg("");
                       try {
-                        const res = await fetch("http://localhost:8000/api/auth/password-reset/", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({ email: formData.email })
-                        });
+                        const res = await fetch(
+                          "https://period-tracker-s6yz.onrender.com",
+                          {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email: formData.email }),
+                          },
+                        );
                         if (res.ok) {
-                          setForgotMsg(`A mail has been sent to "${formData.email}" with instructions to reset your password.`);
+                          setForgotMsg(
+                            `A mail has been sent to "${formData.email}" with instructions to reset your password.`,
+                          );
                         } else {
                           const data = await res.json();
-                          setForgotMsg(data.error || "Failed to send reset email. Please try again.");
+                          setForgotMsg(
+                            data.error ||
+                              "Failed to send reset email. Please try again.",
+                          );
                         }
                       } catch (err) {
-                        setForgotMsg("Failed to send reset email. Please try again.");
+                        setForgotMsg(
+                          "Failed to send reset email. Please try again.",
+                        );
                       }
                     }}
                   >

@@ -122,7 +122,7 @@ export default function SignupPage() {
     setErrors({});
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/signup/", {
+      const response = await fetch("https://period-tracker-s6yz.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
