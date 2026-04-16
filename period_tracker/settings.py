@@ -116,7 +116,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'https://period-tracker-zeta.vercel.app',  # Vercel frontend
 ]
-FRONTEND_URL = 'http://localhost:3000'
+FRONTEND_URL = 'https://period-tracker-zeta.vercel.app'  # was localhost:3000
 # Email Configuration
 # For development, emails are printed to console
 # For production, configure with real SMTP service
