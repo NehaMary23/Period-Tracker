@@ -1,3 +1,6 @@
+# Robust admin login/logout redirect handling
+LOGIN_URL = '/admin/login/'
+LOGOUT_REDIRECT_URL = '/admin/login/'
 # Fix admin logout NoReverseMatch error
 LOGIN_URL = '/admin/login/'
 # Fix admin logout reverse error by specifying login URL
