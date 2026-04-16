@@ -336,9 +336,7 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <div className="border-t border-gray-200 pt-6">
-                {/* Period Notifications section removed as requested */}
-              </div>
+
 
               <div className="flex gap-4">
                 <button
