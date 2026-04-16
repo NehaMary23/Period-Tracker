@@ -119,7 +119,7 @@ export default function SignupPage() {
       const data: SignupResponse = await authAPI.signup(
         formData.email,
         formData.password,
-        formData.username
+        formData.username,
       );
 
       if (!data.token) {

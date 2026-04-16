@@ -39,7 +39,12 @@ const ChartIcon = () => (
 );
 
 const LightbulbIcon = () => (
-  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+  <svg
+    className="w-full h-full"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -50,7 +55,12 @@ const LightbulbIcon = () => (
 );
 
 const TrendingUpIcon = () => (
-  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+  <svg
+    className="w-full h-full"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -61,7 +71,12 @@ const TrendingUpIcon = () => (
 );
 
 const BellIcon = () => (
-  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+  <svg
+    className="w-full h-full"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -163,18 +178,18 @@ const features = [
 ];
 
 export default function LoginPage() {
-    // Input change handler
-    const handleInputChange = (field: "email" | "password", value: string) => {
-      setFormData((prev) => ({ ...prev, [field]: value }));
-      // Clear field-specific error when user starts typing
-      if (errors[field]) {
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors[field];
-          return newErrors;
-        });
-      }
-    };
+  // Input change handler
+  const handleInputChange = (field: "email" | "password", value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear field-specific error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
   const router = useRouter();
 
   // Form state
@@ -233,11 +248,17 @@ export default function LoginPage() {
     // Add a timeout in case the API hangs
     const loginPromise = authAPI.login(formData.email, formData.password);
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Request timed out after 10 seconds")), 10000)
+      setTimeout(
+        () => reject(new Error("Request timed out after 10 seconds")),
+        10000,
+      ),
     );
 
     try {
-      const data = (await Promise.race([loginPromise, timeoutPromise])) as LoginResponse;
+      const data = (await Promise.race([
+        loginPromise,
+        timeoutPromise,
+      ])) as LoginResponse;
       console.log("[LOGIN] API response:", data);
 
       if (!data.token) {

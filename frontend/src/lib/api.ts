@@ -98,7 +98,7 @@ async function apiRequest<T>(
 export const authAPI = {
   login: (email: string, password: string) =>
     apiRequest<{ token: string; user: Record<string, unknown> }>(
-      "/auth/login/",
+      "/api/auth/login/",
       {
         method: "POST",
         body: JSON.stringify({ email, password }),
@@ -106,20 +106,17 @@ export const authAPI = {
     ),
 
   signup: (email: string, password: string, username: string) =>
-    apiRequest<SignupResponse>(
-      "/auth/signup/",
-      {
-        method: "POST",
-        body: JSON.stringify({ email, password, username }),
-      },
-    ),
+    apiRequest<SignupResponse>("/api/auth/signup/", {
+      method: "POST",
+      body: JSON.stringify({ email, password, username }),
+    }),
 
   logout: () =>
-    apiRequest("/auth/logout/", {
+    apiRequest("/api/auth/logout/", {
       method: "POST",
     }),
 
-  me: () => apiRequest<Record<string, unknown>>("/auth/me/"),
+  me: () => apiRequest<Record<string, unknown>>("/api/auth/me/"),
 };
 
 /**
