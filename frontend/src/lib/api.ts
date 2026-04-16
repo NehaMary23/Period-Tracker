@@ -123,29 +123,22 @@ export const authAPI = {
  * Period tracking API calls
  */
 export const periodAPI = {
-  list: () => apiRequest<Array<Record<string, unknown>>>("/periods/"),
-
+  list: () => apiRequest<Array<Record<string, unknown>>>("/api/periods/"),
   create: (data: Record<string, unknown>) =>
-    apiRequest<Record<string, unknown>>("/periods/", {
+    apiRequest<Record<string, unknown>>("/api/periods/", {
       method: "POST",
       body: JSON.stringify(data),
     }),
-
   get: (id: string | number) =>
-    apiRequest<Record<string, unknown>>(`/periods/${id}/`),
-
+    apiRequest<Record<string, unknown>>(`/api/periods/${id}/`),
   update: (id: string | number, data: Record<string, unknown>) =>
-    apiRequest<Record<string, unknown>>(`/periods/${id}/`, {
+    apiRequest<Record<string, unknown>>(`/api/periods/${id}/`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
-
   delete: (id: string | number) =>
-    apiRequest(`/periods/${id}/`, {
-      method: "DELETE",
-    }),
+    apiRequest(`/api/periods/${id}/`, { method: "DELETE" }),
 };
-
 /**
  * Symptom tracking API calls
  */
@@ -184,22 +177,19 @@ export const symptomAPI = {
  * Cycle statistics API calls
  */
 export const statsAPI = {
-  getCycleInfo: () => apiRequest<Record<string, unknown>>("/stats/cycle-info/"),
-
+  getCycleInfo: () =>
+    apiRequest<Record<string, unknown>>("/api/stats/cycle-info/"),
   getPrediction: () =>
-    apiRequest<Record<string, unknown>>("/stats/prediction/"),
-
-  getHistory: () => apiRequest<Record<string, unknown>>("/stats/history/"),
+    apiRequest<Record<string, unknown>>("/api/stats/prediction/"),
+  getHistory: () => apiRequest<Record<string, unknown>>("/api/stats/history/"),
 };
-
 /**
  * Settings API calls
  */
 export const settingsAPI = {
-  get: () => apiRequest<Record<string, unknown>>("/settings/"),
-
+  get: () => apiRequest<Record<string, unknown>>("/api/settings/"),
   update: (data: Record<string, unknown>) =>
-    apiRequest<Record<string, unknown>>("/settings/", {
+    apiRequest<Record<string, unknown>>("/api/settings/", {
       method: "PUT",
       body: JSON.stringify(data),
     }),
