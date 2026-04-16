@@ -279,7 +279,10 @@ export default function LoginPage() {
       if (err && err.response && typeof err.response.json === "function") {
         try {
           const errorData = await err.response.json();
-          if (errorData?.error && errorData.error.toLowerCase().includes("invalid email or password")) {
+          if (
+            errorData?.error &&
+            errorData.error.toLowerCase().includes("invalid email or password")
+          ) {
             errorMessage = "Invalid email or password.";
           } else if (errorData?.error) {
             errorMessage = errorData.error;
@@ -292,9 +295,15 @@ export default function LoginPage() {
         errorMessage = "Invalid email or password.";
       }
       // If error message contains invalid email or password
-      else if (err instanceof Error && err.message?.toLowerCase().includes("invalid email or password")) {
+      else if (
+        err instanceof Error &&
+        err.message?.toLowerCase().includes("invalid email or password")
+      ) {
         errorMessage = "Invalid email or password.";
-      } else if (typeof err === "string" && err.toLowerCase().includes("invalid email or password")) {
+      } else if (
+        typeof err === "string" &&
+        err.toLowerCase().includes("invalid email or password")
+      ) {
         errorMessage = "Invalid email or password.";
       }
       setErrors({ form: errorMessage });

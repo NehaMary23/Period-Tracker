@@ -69,9 +69,30 @@ export default function ResetPasswordPage({
           <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-3">
             {/* Lock icon only */}
             <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
-              <rect x="5" y="11" width="14" height="8" rx="2" fill="#fff" stroke="#e11d48" strokeWidth="2"/>
-              <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="#e11d48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <path d="M12 15v2" stroke="#e11d48" strokeWidth="2" strokeLinecap="round"/>
+              <rect
+                x="5"
+                y="11"
+                width="14"
+                height="8"
+                rx="2"
+                fill="#fff"
+                stroke="#e11d48"
+                strokeWidth="2"
+              />
+              <path
+                d="M7 11V8a5 5 0 0 1 10 0v3"
+                stroke="#e11d48"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+              <path
+                d="M12 15v2"
+                stroke="#e11d48"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </div>
           <h2 className="text-3xl font-extrabold text-rose-700 mb-1 tracking-tight">
