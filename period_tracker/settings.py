@@ -1,3 +1,5 @@
+# Fix admin logout NoReverseMatch error
+LOGIN_URL = '/admin/login/'
 # Fix admin logout reverse error by specifying login URL
 LOGIN_URL = '/admin/login/'
 """
