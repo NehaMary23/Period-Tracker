@@ -1,3 +1,5 @@
+# Always redirect to admin login after logout
+LOGOUT_REDIRECT_URL = '/admin/login/'
 # Robust admin login/logout redirect handling
 LOGIN_URL = '/admin/login/'
 LOGOUT_REDIRECT_URL = '/admin/login/'
