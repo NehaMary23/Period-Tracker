@@ -154,18 +154,11 @@ export default function DashboardPage() {
               variant={cycleInfo?.last_period_date ? "default" : "warning"}
             />
             <StatCard
-              label="Next Period"
-              value={
-                cycleInfo?.next_period_date
-                  ? new Date(cycleInfo.next_period_date).toLocaleDateString(
-                      "en-US",
-                      { month: "short", day: "numeric" },
-                    )
-                  : "Not calculated"
-              }
-              subtitle="Predicted date"
+              label="Wellness Tips"
+              value={"Stay hydrated!"}
+              subtitle="Check back daily for a new tip."
               icon={Clock}
-              variant={cycleInfo?.next_period_date ? "highlight" : "default"}
+              variant="default"
             />
           </div>
 

@@ -337,32 +337,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="border-t border-gray-200 pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="text-sm font-bold text-gray-900 cursor-pointer block mb-2">
-                      Period Notifications
-                    </label>
-                    <p className="text-xs text-gray-600">
-                      Receive email notifications 3 days before your predicted
-                      period
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setNotificationsEnabled(!notificationsEnabled)
-                    }
-                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                      notificationsEnabled ? "bg-rose-600" : "bg-gray-300"
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                        notificationsEnabled ? "translate-x-7" : "translate-x-1"
-                      }`}
-                    />
-                  </button>
-                </div>
+                {/* Period Notifications section removed as requested */}
               </div>
 
               <div className="flex gap-4">

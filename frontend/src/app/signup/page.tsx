@@ -136,34 +136,34 @@ export default function SignupPage() {
       let errorMessage = "An unexpected error occurred. Please try again.";
       // Always check for duplicate email errors in all possible places
       const isDuplicateEmail = (msg: string | undefined) =>
-        !!msg && (
-          msg.toLowerCase().includes("email already exists") ||
+        !!msg &&
+        (msg.toLowerCase().includes("email already exists") ||
           msg.toLowerCase().includes("duplicate email") ||
-          msg.toLowerCase().includes("user with this email")
-        );
+          msg.toLowerCase().includes("user with this email"));
 
       // Try to extract error from fetch response if available
       if (err && err.response && typeof err.response.json === "function") {
         try {
           const errorData = await err.response.json();
+          // Check for errorData.error (string)
           if (isDuplicateEmail(errorData?.error)) {
+            errorMessage = "An account with that email already exists.";
+            // Check for errorData.email (array of strings)
+          } else if (
+            Array.isArray(errorData?.email) &&
+            errorData.email.some((msg: string) => isDuplicateEmail(msg))
+          ) {
             errorMessage = "An account with that email already exists.";
           } else if (errorData?.error) {
             errorMessage = errorData.error;
           }
         } catch {}
       }
-      if (
-        isDuplicateEmail(err?.response?.data?.error)
-      ) {
+      if (isDuplicateEmail(err?.response?.data?.error)) {
         errorMessage = "An account with that email already exists.";
-      } else if (
-        err instanceof Error && isDuplicateEmail(err.message)
-      ) {
+      } else if (err instanceof Error && isDuplicateEmail(err.message)) {
         errorMessage = "An account with that email already exists.";
-      } else if (
-        typeof err === "string" && isDuplicateEmail(err)
-      ) {
+      } else if (typeof err === "string" && isDuplicateEmail(err)) {
         errorMessage = "An account with that email already exists.";
       }
       setErrors({ form: errorMessage });

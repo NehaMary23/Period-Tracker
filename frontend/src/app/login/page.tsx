@@ -301,22 +301,18 @@ export default function LoginPage() {
       // If error message contains invalid email or password or similar
       else if (
         err instanceof Error &&
-        (
-          err.message?.toLowerCase().includes("invalid email") ||
+        (err.message?.toLowerCase().includes("invalid email") ||
           err.message?.toLowerCase().includes("invalid credentials") ||
           err.message?.toLowerCase().includes("invalid password") ||
-          err.message?.toLowerCase().includes("not found")
-        )
+          err.message?.toLowerCase().includes("not found"))
       ) {
         errorMessage = "Invalid email or password.";
       } else if (
         typeof err === "string" &&
-        (
-          err.toLowerCase().includes("invalid email") ||
+        (err.toLowerCase().includes("invalid email") ||
           err.toLowerCase().includes("invalid credentials") ||
           err.toLowerCase().includes("invalid password") ||
-          err.toLowerCase().includes("not found")
-        )
+          err.toLowerCase().includes("not found"))
       ) {
         errorMessage = "Invalid email or password.";
       }
