@@ -362,11 +362,11 @@ export default function LoginPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
             {/* Left Side - Content */}
-            <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight tracking-tight">
+            <div className="hidden sm:block">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight tracking-tight">
                 Take Control of Your Health
               </h1>
-              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed font-light">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed font-light">
                 Track your menstrual cycle with precision, understand your
                 body's patterns, and make informed decisions about your health
                 and wellness.
@@ -376,7 +376,7 @@ export default function LoginPage() {
                   <div className="text-rose-600 flex-shrink-0">
                     <CheckIcon />
                   </div>
-                  <span className="text-sm sm:text-base text-gray-700 font-medium">
+                  <span className="text-xs sm:text-sm lg:text-base text-gray-700 font-medium">
                     100% Private
                   </span>
                 </div>
@@ -384,7 +384,7 @@ export default function LoginPage() {
                   <div className="text-rose-600 flex-shrink-0">
                     <CheckIcon />
                   </div>
-                  <span className="text-sm sm:text-base text-gray-700 font-medium">Easy to Use</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-gray-700 font-medium">Easy to Use</span>
                 </div>
               </div>
             </div>
