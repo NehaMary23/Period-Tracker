@@ -98,7 +98,23 @@ export default function CycleProgressCard({
               className={`font-bold ${isLate ? "text-red-600" : "text-rose-600"}`}
               style={{ fontSize: "clamp(2.5rem, 8vw, 3.5rem)" }}
             >
-              {currentDay}
+              {(() => {
+                const percent = (currentDay / cycleLength) * 100;
+                let phaseStartDay;
+
+                if (percent <= 5) {
+                  phaseStartDay = 1;
+                } else if (percent <= 35) {
+                  phaseStartDay = Math.ceil(cycleLength * 0.05) + 1;
+                } else if (percent <= 45) {
+                  phaseStartDay = Math.ceil(cycleLength * 0.35) + 1;
+                } else {
+                  phaseStartDay = Math.ceil(cycleLength * 0.45) + 1;
+                }
+
+                const dayInPhase = currentDay - phaseStartDay + 1;
+                return dayInPhase;
+              })()}
             </div>
             <div
               className="text-gray-600 font-medium mt-1"
