@@ -60,8 +60,8 @@ export default function Navbar() {
                   }`}
                 >
                   <Icon size={18} />
-                  <span 
-                    className="hidden sm:inline"
+                  <span
+                    className="hidden lg:inline"
                     style={{ fontSize: "clamp(0.65rem, 1.5vw, 1rem)" }}
                   >
                     {item.label}
