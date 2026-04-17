@@ -27,10 +27,6 @@ Period Tracker is a full-stack web application that helps users track menstrual 
 * SQLite (dev) / PostgreSQL (production-ready)
 * JWT Authentication
 
-**Tools & Services**
-
-* Reset Password via Email
-
 ## ⚙️ Installation & Setup
 
 ### 1. Clone the Repository
