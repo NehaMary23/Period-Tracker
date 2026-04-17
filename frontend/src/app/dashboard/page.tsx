@@ -286,25 +286,21 @@ export default function DashboardPage() {
                               const day =
                                 cycleInfo.current_day || cycleInfo.phase.day;
                               const length = cycleInfo.cycle_length || 28;
-                              const percent = (day / length) * 100;
+                              const phaseName = cycleInfo.phase.name;
 
-                              let phaseStartDay, phaseEndDay, phaseName;
-                              if (percent <= 5) {
+                              let phaseStartDay, phaseEndDay;
+                              if (phaseName === "Menstrual") {
                                 phaseStartDay = 1;
                                 phaseEndDay = Math.ceil(length * 0.05);
-                                phaseName = "Menstrual";
-                              } else if (percent <= 35) {
+                              } else if (phaseName === "Follicular") {
                                 phaseStartDay = Math.ceil(length * 0.05) + 1;
                                 phaseEndDay = Math.ceil(length * 0.35);
-                                phaseName = "Follicular";
-                              } else if (percent <= 45) {
+                              } else if (phaseName === "Ovulation") {
                                 phaseStartDay = Math.ceil(length * 0.35) + 1;
                                 phaseEndDay = Math.ceil(length * 0.45);
-                                phaseName = "Ovulation";
                               } else {
                                 phaseStartDay = Math.ceil(length * 0.45) + 1;
                                 phaseEndDay = length;
-                                phaseName = "Luteal";
                               }
 
                               const dayInPhase = day - phaseStartDay + 1;
