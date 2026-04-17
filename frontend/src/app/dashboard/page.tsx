@@ -96,7 +96,7 @@ export default function DashboardPage() {
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
+              <div className="text-center sm:text-left">
                 <h1
                   className="font-bold text-gray-900 mb-2"
                   style={{ fontSize: "clamp(2rem, 5vw, 2.4rem)" }}
