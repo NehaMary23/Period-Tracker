@@ -10,8 +10,8 @@ Period Tracker is a full-stack web application that helps users track menstrual 
 * **Cycle Tracking** – Log period start/end dates and flow intensity along with notes
 * **Cycle Phase Detection** – Automatically shows current phase (Menstrual, Follicular, Ovulation, Luteal)
 * **Smart Predictions** – Predicts next period based on cycle history
-* **Password Reset via Email** – Secure email-based password reset system
 * **Dashboard Analytics** – View cycle insights and statistics
+* **Password Reset via Email** – Secure email-based password reset system
 * **Authentication & Security** – Token-based login with user-specific data isolation
 
 ## 🛠️ Tech Stack
