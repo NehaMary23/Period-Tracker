@@ -94,20 +94,27 @@ export default function DashboardPage() {
       <main className="flex-1">
         {/* Page Header */}
         <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-6 py-8">
-            <div className="flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                <h1 
+                  className="font-bold text-gray-900 mb-2"
+                  style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
+                >
                   Your Cycle Dashboard
                 </h1>
-                <p className="text-gray-600 text-lg">
+                <p 
+                  className="text-gray-600"
+                  style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
+                >
                   Track your menstrual cycle and stay informed about your health
                 </p>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-shrink-0">
                 <Link
                   href="/log-period"
-                  className="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 flex items-center gap-2 shadow-md hover:shadow-lg"
+                  className="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition duration-200 flex items-center gap-2 shadow-md hover:shadow-lg"
+                  style={{ fontSize: "clamp(0.875rem, 2vw, 1rem)" }}
                 >
                   <Plus size={20} />
                   Log Period
