@@ -28,7 +28,7 @@ export default function Navbar() {
                 PT
               </span>
             </div>
-            <div className="hidden sm:block">
+            <div>
               <div
                 className="font-bold text-gray-900"
                 style={{ fontSize: "clamp(0.875rem, 3vw, 1.25rem)" }}
