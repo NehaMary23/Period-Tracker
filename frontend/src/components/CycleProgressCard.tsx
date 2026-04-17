@@ -126,38 +126,6 @@ export default function CycleProgressCard({
             style={{ width: `${Math.min(progress, 100)}%` }}
           />
         </div>
-
-        {/* Phase-based day display */}
-        <div className="mt-4">
-          <div
-            className="text-gray-700 font-medium"
-            style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
-          >
-            {(() => {
-              const percent = (currentDay / cycleLength) * 100;
-              let phaseStartDay, phaseEndDay;
-
-              if (percent <= 5) {
-                phaseStartDay = 1;
-                phaseEndDay = Math.ceil(cycleLength * 0.05);
-              } else if (percent <= 35) {
-                phaseStartDay = Math.ceil(cycleLength * 0.05) + 1;
-                phaseEndDay = Math.ceil(cycleLength * 0.35);
-              } else if (percent <= 45) {
-                phaseStartDay = Math.ceil(cycleLength * 0.35) + 1;
-                phaseEndDay = Math.ceil(cycleLength * 0.45);
-              } else {
-                phaseStartDay = Math.ceil(cycleLength * 0.45) + 1;
-                phaseEndDay = cycleLength;
-              }
-
-              const dayInPhase = currentDay - phaseStartDay + 1;
-              const totalDaysInPhase = phaseEndDay - phaseStartDay + 1;
-
-              return `Day ${dayInPhase} of ${totalDaysInPhase}`;
-            })()}
-          </div>
-        </div>
       </div>
 
       {/* Stats Row */}

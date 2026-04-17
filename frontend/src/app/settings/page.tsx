@@ -203,16 +203,25 @@ export default function SettingsPage() {
         <main className="max-w-2xl mx-auto px-6 py-8">
           {/* Account Settings Section */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8 mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2
+              className="font-bold text-gray-900 mb-2"
+              style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+            >
               Account Settings
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p
+              className="text-gray-600 mb-6"
+              style={{ fontSize: "clamp(0.875rem, 2vw, 1rem)" }}
+            >
               Update your account information
             </p>
 
             <form onSubmit={handleAccountSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+                <label
+                  className="block font-bold text-gray-900 mb-3"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
                   Username
                 </label>
                 <input
@@ -226,7 +235,10 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+                <label
+                  className="block font-bold text-gray-900 mb-3"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
                   Email Address
                 </label>
                 <input
@@ -243,7 +255,8 @@ export default function SettingsPage() {
                 <button
                   type="button"
                   onClick={() => setShowPasswordForm(true)}
-                  className="text-rose-600 hover:text-rose-700 font-medium text-sm"
+                  className="text-rose-600 hover:text-rose-700 font-medium"
+                  style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
                 >
                   + Change Password
                 </button>
@@ -251,7 +264,10 @@ export default function SettingsPage() {
 
               {showPasswordForm && (
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     New Password
                   </label>
                   <input
@@ -266,7 +282,10 @@ export default function SettingsPage() {
                     placeholder="Enter new password (min 8 characters)"
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-rose-600 outline-none transition text-gray-900 font-semibold bg-white"
                   />
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p
+                    className="mt-1 text-gray-500"
+                    style={{ fontSize: "clamp(0.7rem, 1vw, 0.75rem)" }}
+                  >
                     Leave blank to keep current password
                   </p>
                 </div>
@@ -277,6 +296,7 @@ export default function SettingsPage() {
                   type="submit"
                   disabled={savingAccount}
                   className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 >
                   {savingAccount ? "Saving..." : "Save Account Settings"}
                 </button>
@@ -298,17 +318,26 @@ export default function SettingsPage() {
 
           {/* Cycle Tracking Settings Section */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2
+              className="font-bold text-gray-900 mb-2"
+              style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+            >
               Cycle Tracking Preferences
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p
+              className="text-gray-600 mb-6"
+              style={{ fontSize: "clamp(0.875rem, 2vw, 1rem)" }}
+            >
               Configure your cycle tracking preferences
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     Average Cycle Length (days)
                   </label>
                   <input
@@ -322,7 +351,10 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     Average Period Length (days)
                   </label>
                   <input
@@ -341,6 +373,7 @@ export default function SettingsPage() {
                   type="submit"
                   disabled={saving}
                   className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 >
                   {saving ? "Saving..." : "Save Preferences"}
                 </button>
