@@ -360,9 +360,9 @@ export default function LoginPage() {
       {/* Hero Section with Login Form */}
       <div className="flex-1 bg-gradient-to-br from-slate-50 via-rose-50 to-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 xs:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
             {/* Left Side - Content */}
-            <div className="hidden sm:block">
+            <div className="hidden xs:block">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight tracking-tight">
                 Take Control of Your Health
               </h1>
