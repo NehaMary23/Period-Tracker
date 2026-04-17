@@ -45,10 +45,16 @@ export default function PeriodTable({ periods }: PeriodTableProps) {
               />
             </svg>
           </div>
-          <h3 className="text-lg font-bold text-gray-900 mb-2">
+          <h3 
+            className="font-bold text-gray-900 mb-2"
+            style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+          >
             No periods logged yet
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p 
+            className="text-gray-600 mb-6"
+            style={{ fontSize: "clamp(0.875rem, 2vw, 1rem)" }}
+          >
             Start tracking your cycle by logging your first period
           </p>
           <Link
@@ -74,24 +80,41 @@ export default function PeriodTable({ periods }: PeriodTableProps) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-        <h3 className="text-lg font-bold text-gray-900">Recent Periods</h3>
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 bg-gray-50">
+        <h3 
+          className="font-bold text-gray-900"
+          style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+        >
+          Recent Periods
+        </h3>
       </div>
 
       <div className="overflow-hidden">
-        <table className="w-full text-sm md:text-base">
+        <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th 
+                className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold text-gray-700 uppercase tracking-wider"
+                style={{ fontSize: "clamp(0.65rem, 1vw, 0.75rem)" }}
+              >
                 Start Date
               </th>
-              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider hidden sm:table-cell">
+              <th 
+                className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold text-gray-700 uppercase tracking-wider"
+                style={{ fontSize: "clamp(0.65rem, 1vw, 0.75rem)" }}
+              >
                 Duration
               </th>
-              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th 
+                className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold text-gray-700 uppercase tracking-wider"
+                style={{ fontSize: "clamp(0.65rem, 1vw, 0.75rem)" }}
+              >
                 Flow
               </th>
-              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider hidden md:table-cell">
+              <th 
+                className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold text-gray-700 uppercase tracking-wider"
+                style={{ fontSize: "clamp(0.65rem, 1vw, 0.75rem)" }}
+              >
                 Notes
               </th>
             </tr>
@@ -112,31 +135,40 @@ export default function PeriodTable({ periods }: PeriodTableProps) {
                   key={period.id}
                   className="hover:bg-gray-50 transition duration-200"
                 >
-                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 whitespace-nowrap">
-                    <div className="text-xs sm:text-sm font-medium text-gray-900">
+                  <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 whitespace-nowrap">
+                    <div 
+                      className="font-medium text-gray-900"
+                      style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+                    >
                       {new Date(period.start_date).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
-                        year: "numeric",
                       })}
                     </div>
                   </td>
-                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 whitespace-nowrap hidden sm:table-cell">
-                    <div className="text-xs sm:text-sm text-gray-700">
-                      {duration} days
+                  <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 whitespace-nowrap">
+                    <div 
+                      className="text-gray-700"
+                      style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+                    >
+                      {duration}d
                     </div>
                   </td>
-                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 whitespace-nowrap">
+                  <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 whitespace-nowrap">
                     <span
-                      className={`inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full text-xs font-bold ${flowStyles}`}
+                      className={`inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded font-bold ${flowStyles}`}
+                      style={{ fontSize: "clamp(0.65rem, 1vw, 0.75rem)" }}
                     >
-                      <span className="capitalize text-xs sm:text-sm">
-                        {flowIntensityLabels[flowKey] || "Moderate"}
+                      <span className="capitalize">
+                        {flowIntensityLabels[flowKey]?.[0] || "M"}
                       </span>
                     </span>
                   </td>
-                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 hidden md:table-cell">
-                    <div className="text-xs sm:text-sm text-gray-600 max-w-xs truncate">
+                  <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                    <div 
+                      className="text-gray-600 truncate max-w-20 sm:max-w-xs"
+                      style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+                    >
                       {period.notes || "—"}
                     </div>
                   </td>

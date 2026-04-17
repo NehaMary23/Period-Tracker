@@ -215,23 +215,48 @@ export default function DashboardPage() {
                   >
                     {cycleInfo.phase.name}
                   </h2>
-                  <p 
+                  <p
                     className="text-gray-700 mb-4"
                     style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
                   >
                     {cycleInfo.phase.description}
                   </p>
                   {cycleInfo.phase.day && (
-                    <div 
+                    <div
                       className="text-gray-600"
                       style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                     >
                       <span className="font-semibold">
-                        Day {cycleInfo.phase.day}
+                        {(() => {
+                          const day = cycleInfo.phase.day;
+                          const length = cycleInfo.cycle_length || 28;
+                          const percent = (day / length) * 100;
+                          
+                          let phaseStartDay, phaseEndDay, phaseName;
+                          if (percent <= 5) {
+                            phaseStartDay = 1;
+                            phaseEndDay = Math.ceil(length * 0.05);
+                            phaseName = "Menstrual";
+                          } else if (percent <= 35) {
+                            phaseStartDay = Math.ceil(length * 0.05) + 1;
+                            phaseEndDay = Math.ceil(length * 0.35);
+                            phaseName = "Follicular";
+                          } else if (percent <= 45) {
+                            phaseStartDay = Math.ceil(length * 0.35) + 1;
+                            phaseEndDay = Math.ceil(length * 0.45);
+                            phaseName = "Ovulation";
+                          } else {
+                            phaseStartDay = Math.ceil(length * 0.45) + 1;
+                            phaseEndDay = length;
+                            phaseName = "Luteal";
+                          }
+                          
+                          const dayInPhase = day - phaseStartDay + 1;
+                          const totalDaysInPhase = phaseEndDay - phaseStartDay + 1;
+                          
+                          return `Day ${dayInPhase} of ${totalDaysInPhase}`;
+                        })()}
                       </span>
-                      {cycleInfo.phase.days_remaining && (
-                        <span> of {cycleInfo.cycle_length} days</span>
-                      )}
                     </div>
                   )}
                 </div>
@@ -245,9 +270,12 @@ export default function DashboardPage() {
                           ? "bg-rose-50 text-rose-400"
                           : "bg-rose-50 text-rose-400"
                   }`}
-                  style={{ width: "clamp(4rem, 12vw, 6rem)", height: "clamp(4rem, 12vw, 6rem)" }}
+                  style={{
+                    width: "clamp(4rem, 12vw, 6rem)",
+                    height: "clamp(4rem, 12vw, 6rem)",
+                  }}
                 >
-                  <div 
+                  <div
                     className="font-bold"
                     style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
                   >
