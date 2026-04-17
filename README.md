@@ -1,10 +1,9 @@
 # Period Tracker – Full Stack Web Application
 
-A modern full-stack web application designed to help users track menstrual cycles, monitor symptoms, and receive intelligent predictions with automated reminders.
-
 ## 🔍 Overview
 
-Period Tracker is built with a robust Django backend and a responsive Next.js frontend. It focuses on providing a secure, user-friendly platform for personal health tracking with real-time insights.
+Period Tracker is a full-stack web application that helps users track menstrual cycles, view their current cycle phase, and get smart predictions for upcoming periods. It features a secure and user-friendly dashboard built with Django and Next.js.
+
 
 ## ✨ Key Features
 
@@ -30,8 +29,7 @@ Period Tracker is built with a robust Django backend and a responsive Next.js fr
 
 **Tools & Services**
 
-* REST APIs
-* Email Notification System
+* Reset Password via Email
 
 ## ⚙️ Installation & Setup
 
@@ -54,18 +52,6 @@ cd frontend
 npm install
 npm run dev
 ```
-
-## 🌐 Application URLs
-
-* Frontend: http://localhost:3000
-* Backend API: http://127.0.0.1:8000
-* Admin Panel: http://127.0.0.1:8000/admin
-
-## 🔐 Authentication Flow
-
-* Users register/login via frontend
-* Backend issues secure tokens
-* Each user accesses only their own data
 
 ## 📈 Learning Outcomes
 
