@@ -127,7 +127,7 @@ export default function DashboardPage() {
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
             <StatCard
               label="Current Day"
               value={cycleInfo?.current_day || "—"}
@@ -186,113 +186,172 @@ export default function DashboardPage() {
           </div>
 
           {/* Cycle Phase Display */}
-          {cycleInfo?.phase && (
-            <div
-              onClick={() => setShowPhaseModal(true)}
-              className={`mb-8 bg-white rounded-lg shadow-md border-l-4 p-4 sm:p-6 lg:p-8 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-2 ${
-                cycleInfo.phase.color === "rose"
-                  ? "border-l-rose-600"
-                  : cycleInfo.phase.color === "blue"
-                    ? "border-l-rose-600"
-                    : cycleInfo.phase.color === "amber"
-                      ? "border-l-rose-600"
-                      : "border-l-rose-600"
-              }`}
-            >
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
-                <div className="flex-1">
-                  <h2
-                    className={`font-bold mb-2 ${
-                      cycleInfo.phase.color === "rose"
-                        ? "text-rose-600"
-                        : cycleInfo.phase.color === "blue"
-                          ? "text-rose-600"
-                          : cycleInfo.phase.color === "amber"
-                            ? "text-rose-600"
-                            : "text-rose-600"
-                    }`}
-                    style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
-                  >
-                    {cycleInfo.phase.name}
-                  </h2>
-                  <p
-                    className="text-gray-700 mb-4"
-                    style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
-                  >
-                    {cycleInfo.phase.description}
-                  </p>
-                  {cycleInfo.phase.day && (
-                    <div
-                      className="text-gray-600"
-                      style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
-                    >
-                      <span className="font-semibold">
-                        {(() => {
-                          const day = cycleInfo.phase.day;
-                          const length = cycleInfo.cycle_length || 28;
-                          const percent = (day / length) * 100;
-                          
-                          let phaseStartDay, phaseEndDay, phaseName;
-                          if (percent <= 5) {
-                            phaseStartDay = 1;
-                            phaseEndDay = Math.ceil(length * 0.05);
-                            phaseName = "Menstrual";
-                          } else if (percent <= 35) {
-                            phaseStartDay = Math.ceil(length * 0.05) + 1;
-                            phaseEndDay = Math.ceil(length * 0.35);
-                            phaseName = "Follicular";
-                          } else if (percent <= 45) {
-                            phaseStartDay = Math.ceil(length * 0.35) + 1;
-                            phaseEndDay = Math.ceil(length * 0.45);
-                            phaseName = "Ovulation";
-                          } else {
-                            phaseStartDay = Math.ceil(length * 0.45) + 1;
-                            phaseEndDay = length;
-                            phaseName = "Luteal";
-                          }
-                          
-                          const dayInPhase = day - phaseStartDay + 1;
-                          const totalDaysInPhase = phaseEndDay - phaseStartDay + 1;
-                          
-                          return `Day ${dayInPhase} of ${totalDaysInPhase}`;
-                        })()}
-                      </span>
+          {cycleInfo?.phase &&
+            (() => {
+              const isLate = cycleInfo.current_day
+                ? cycleInfo.current_day > (cycleInfo.cycle_length || 28)
+                : false;
+
+              if (isLate) {
+                return (
+                  <div className="mb-8 bg-white rounded-lg shadow-md border-l-4 border-l-red-600 p-4 sm:p-6 lg:p-8">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+                      <div className="flex-1">
+                        <h2
+                          className="font-bold mb-2 text-red-600"
+                          style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+                        >
+                          Period is Late
+                        </h2>
+                        <p
+                          className="text-gray-700 mb-4"
+                          style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
+                        >
+                          Your period is overdue. Consider logging a new period
+                          or consulting a healthcare provider if you have
+                          concerns.
+                        </p>
+                        <div
+                          className="text-gray-600"
+                          style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                        >
+                          <span className="font-semibold">
+                            {cycleInfo.current_day &&
+                              cycleInfo.cycle_length &&
+                              `${cycleInfo.current_day - cycleInfo.cycle_length} day${cycleInfo.current_day - cycleInfo.cycle_length !== 1 ? "s" : ""} overdue`}
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        className="flex-shrink-0 rounded-full flex flex-col items-center justify-center bg-red-50 text-red-400"
+                        style={{
+                          width: "clamp(4rem, 12vw, 6rem)",
+                          height: "clamp(4rem, 12vw, 6rem)",
+                        }}
+                      >
+                        <div
+                          className="font-bold"
+                          style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+                        >
+                          ⚠
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                );
+              }
+
+              return (
                 <div
-                  className={`flex-shrink-0 rounded-full flex flex-col items-center justify-center ${
+                  onClick={() => setShowPhaseModal(true)}
+                  className={`mb-8 bg-white rounded-lg shadow-md border-l-4 p-4 sm:p-6 lg:p-8 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-2 ${
                     cycleInfo.phase.color === "rose"
-                      ? "bg-rose-50 text-rose-400"
+                      ? "border-l-rose-600"
                       : cycleInfo.phase.color === "blue"
-                        ? "bg-rose-50 text-rose-400"
+                        ? "border-l-rose-600"
                         : cycleInfo.phase.color === "amber"
-                          ? "bg-rose-50 text-rose-400"
-                          : "bg-rose-50 text-rose-400"
+                          ? "border-l-rose-600"
+                          : "border-l-rose-600"
                   }`}
-                  style={{
-                    width: "clamp(4rem, 12vw, 6rem)",
-                    height: "clamp(4rem, 12vw, 6rem)",
-                  }}
                 >
-                  <div
-                    className="font-bold"
-                    style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
-                  >
-                    {(() => {
-                      const d = cycleInfo.phase.day;
-                      if (!d) return "—";
-                      if (cycleInfo.phase.phase === "menstruation") return d;
-                      if (cycleInfo.phase.phase === "follicular") return d - 5;
-                      if (cycleInfo.phase.phase === "ovulation") return 1;
-                      if (cycleInfo.phase.phase === "luteal") return d - 14;
-                      return d;
-                    })()}
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+                    <div className="flex-1">
+                      <h2
+                        className={`font-bold mb-2 ${
+                          cycleInfo.phase.color === "rose"
+                            ? "text-rose-600"
+                            : cycleInfo.phase.color === "blue"
+                              ? "text-rose-600"
+                              : cycleInfo.phase.color === "amber"
+                                ? "text-rose-600"
+                                : "text-rose-600"
+                        }`}
+                        style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+                      >
+                        {cycleInfo.phase.name}
+                      </h2>
+                      <p
+                        className="text-gray-700 mb-4"
+                        style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
+                      >
+                        {cycleInfo.phase.description}
+                      </p>
+                      {cycleInfo.phase.day && (
+                        <div
+                          className="text-gray-600"
+                          style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                        >
+                          <span className="font-semibold">
+                            {(() => {
+                              const day = cycleInfo.phase.day;
+                              const length = cycleInfo.cycle_length || 28;
+                              const percent = (day / length) * 100;
+
+                              let phaseStartDay, phaseEndDay, phaseName;
+                              if (percent <= 5) {
+                                phaseStartDay = 1;
+                                phaseEndDay = Math.ceil(length * 0.05);
+                                phaseName = "Menstrual";
+                              } else if (percent <= 35) {
+                                phaseStartDay = Math.ceil(length * 0.05) + 1;
+                                phaseEndDay = Math.ceil(length * 0.35);
+                                phaseName = "Follicular";
+                              } else if (percent <= 45) {
+                                phaseStartDay = Math.ceil(length * 0.35) + 1;
+                                phaseEndDay = Math.ceil(length * 0.45);
+                                phaseName = "Ovulation";
+                              } else {
+                                phaseStartDay = Math.ceil(length * 0.45) + 1;
+                                phaseEndDay = length;
+                                phaseName = "Luteal";
+                              }
+
+                              const dayInPhase = day - phaseStartDay + 1;
+                              const totalDaysInPhase =
+                                phaseEndDay - phaseStartDay + 1;
+
+                              return `Day ${dayInPhase} of ${totalDaysInPhase}`;
+                            })()}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      className={`flex-shrink-0 rounded-full flex flex-col items-center justify-center ${
+                        cycleInfo.phase.color === "rose"
+                          ? "bg-rose-50 text-rose-400"
+                          : cycleInfo.phase.color === "blue"
+                            ? "bg-rose-50 text-rose-400"
+                            : cycleInfo.phase.color === "amber"
+                              ? "bg-rose-50 text-rose-400"
+                              : "bg-rose-50 text-rose-400"
+                      }`}
+                      style={{
+                        width: "clamp(4rem, 12vw, 6rem)",
+                        height: "clamp(4rem, 12vw, 6rem)",
+                      }}
+                    >
+                      <div
+                        className="font-bold"
+                        style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+                      >
+                        {(() => {
+                          const d = cycleInfo.phase.day;
+                          if (!d) return "—";
+                          if (cycleInfo.phase.phase === "menstruation")
+                            return d;
+                          if (cycleInfo.phase.phase === "follicular")
+                            return d - 5;
+                          if (cycleInfo.phase.phase === "ovulation") return 1;
+                          if (cycleInfo.phase.phase === "luteal") return d - 14;
+                          return d;
+                        })()}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
+              );
+            })()}
 
           {/* Recent Periods Table */}
           <PeriodTable periods={periods} />
