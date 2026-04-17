@@ -327,29 +327,29 @@ export default function LoginPage() {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-rose-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-lg">PT</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 sm:w-10 h-8 sm:h-10 bg-rose-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-xs sm:text-lg">PT</span>
               </div>
               <div>
-                <div className="text-xl font-bold text-gray-900">
+                <div className="text-sm sm:text-xl font-bold text-gray-900">
                   Period Tracker
                 </div>
-                <div className="text-xs text-gray-500 font-medium">
+                <div className="text-xs text-gray-500 font-medium hidden sm:block">
                   Health Tracking
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 sm:gap-6">
               <Link
                 href="/signup"
-                className="py-3 px-6 rounded-lg font-semibold transition duration-200 text-gray-700 hover:bg-gray-100 hover:text-rose-600"
+                className="py-2 px-3 sm:py-3 sm:px-6 rounded-lg font-semibold text-xs sm:text-base transition duration-200 text-gray-700 hover:bg-gray-100 hover:text-rose-600"
               >
                 Create Account
               </Link>
-              <button className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-sm hover:shadow-md">
+              <button className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-3 sm:py-3 sm:px-6 rounded-lg text-xs sm:text-base transition duration-200 shadow-sm hover:shadow-md">
                 Sign In
               </button>
             </div>
@@ -359,7 +359,7 @@ export default function LoginPage() {
 
       {/* Hero Section with Login Form */}
       <div className="flex-1 bg-gradient-to-br from-slate-50 via-rose-50 to-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
             {/* Left Side - Content */}
             <div>
@@ -390,11 +390,11 @@ export default function LoginPage() {
             </div>
 
             {/* Right Side - Login Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 h-fit border border-gray-100">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">
+            <div className="bg-white rounded-2xl shadow-lg p-5 sm:p-8 h-fit border border-gray-100">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 tracking-tight">
                 Welcome Back
               </h2>
-              <p className="text-gray-500 mb-8 font-light text-sm">
+              <p className="text-gray-500 mb-6 sm:mb-8 font-light text-xs sm:text-sm">
                 Sign in to your account to continue tracking your health
               </p>
 
