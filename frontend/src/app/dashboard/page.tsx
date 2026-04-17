@@ -289,17 +289,17 @@ export default function DashboardPage() {
                               const phaseName = cycleInfo.phase.name;
 
                               let phaseStartDay, phaseEndDay;
-                              if (phaseName === "Menstrual") {
+                              if (phaseName === "Menstruation") {
                                 phaseStartDay = 1;
-                                phaseEndDay = Math.ceil(length * 0.05);
+                                phaseEndDay = 5;
                               } else if (phaseName === "Follicular") {
-                                phaseStartDay = Math.ceil(length * 0.05) + 1;
-                                phaseEndDay = Math.ceil(length * 0.35);
+                                phaseStartDay = 6;
+                                phaseEndDay = 13;
                               } else if (phaseName === "Ovulation") {
-                                phaseStartDay = Math.ceil(length * 0.35) + 1;
-                                phaseEndDay = Math.ceil(length * 0.45);
+                                phaseStartDay = 14;
+                                phaseEndDay = 14;
                               } else {
-                                phaseStartDay = Math.ceil(length * 0.45) + 1;
+                                phaseStartDay = 15;
                                 phaseEndDay = length;
                               }
 
