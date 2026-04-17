@@ -103,10 +103,19 @@ export default function LogPeriodPage() {
         {/* Main Content */}
         <main className="max-w-2xl mx-auto px-6 py-8">
           <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8">
+            <h1
+              className="font-bold text-gray-900 mb-6"
+              style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+            >
+              Log Your Period
+            </h1>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     Start Date
                   </label>
                   <input
@@ -119,7 +128,10 @@ export default function LogPeriodPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     End Date
                   </label>
                   <input
@@ -134,7 +146,10 @@ export default function LogPeriodPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+                <label
+                  className="block font-bold text-gray-900 mb-3"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
                   Flow Intensity
                 </label>
                 <select
@@ -150,7 +165,10 @@ export default function LogPeriodPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+                <label
+                  className="block font-bold text-gray-900 mb-3"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
                   Notes (Optional)
                 </label>
                 <textarea
@@ -166,12 +184,14 @@ export default function LogPeriodPage() {
                   type="submit"
                   disabled={loading}
                   className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 >
                   {loading ? "Saving..." : "Log Period"}
                 </button>
                 <Link
                   href="/dashboard"
                   className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-3 px-6 rounded-lg transition duration-200 text-center border-2 border-gray-300"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 >
                   Cancel
                 </Link>
