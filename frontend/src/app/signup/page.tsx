@@ -176,30 +176,52 @@ export default function SignupPage() {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-8 py-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 py-2 sm:py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-rose-600 rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 sm:w-10 h-8 sm:h-10 bg-rose-600 rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="text-white font-bold text-lg">PT</span>
               </div>
               <div>
-                <div className="text-xl font-bold text-gray-900">
+                <div
+                  className="font-bold text-gray-900"
+                  style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)" }}
+                >
                   Period Tracker
                 </div>
-                <div className="text-xs text-gray-500 font-medium">
+                <div
+                  className="text-gray-500 font-medium"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 0.875rem)" }}
+                >
                   Health Tracking
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-1 sm:gap-2 md:gap-6">
               <Link
                 href="/login"
-                className="py-3 px-6 rounded-lg font-semibold transition duration-200 text-gray-700 hover:bg-gray-100 hover:text-rose-600"
+                className="py-2 sm:py-3 px-2 sm:px-6 rounded-lg font-semibold transition duration-200 text-gray-700 hover:bg-gray-100 hover:text-rose-600"
+                style={{ fontSize: "clamp(0.875rem, 2vw, 1rem))" }}
               >
-                Sign In
+                <span className="sm:hidden">Sign In</span>
+                <span className="hidden sm:inline">Sign In</span>
               </Link>
-              <button className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-sm hover:shadow-md">
-                Create Account
+              <button
+                className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-2 sm:px-6 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+                style={{ fontSize: "clamp(0.7rem, 2vw, 1rem)" }}
+              >
+                <span
+                  className="hidden sm:inline"
+                  style={{ fontSize: "clamp(0.875rem, 1.3vw, 2rem)" }}
+                >
+                  Create Account
+                </span>
+                <span
+                  className="sm:hidden"
+                  style={{ fontSize: "clamp(0.8rem, 1vw, 2rem)" }}
+                >
+                  Sign Up
+                </span>
               </button>
             </div>
           </div>
@@ -208,23 +230,32 @@ export default function SignupPage() {
 
       {/* Hero Section with Signup Form */}
       <div className="flex-1 bg-gradient-to-br from-slate-50 via-rose-50 to-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-15 lg:pt-0 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Content */}
-            <div>
-              <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
+            <div className="lg:text-left text-center">
+              <h1
+                className="font-bold text-gray-900 mb-4 leading-tight tracking-tight"
+                style={{ fontSize: "clamp(2.3rem, 5vw, 3.5rem)" }}
+              >
                 Start Your Health Journey
               </h1>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed font-light">
+              <p
+                className="text-gray-600 mb-6 leading-relaxed font-light"
+                style={{ fontSize: "clamp(1rem, 2vw, 1.125rem)" }}
+              >
                 Create your account and join thousands of people taking control
                 of their menstrual health with our easy-to-use tracking app.
               </p>
-              <div className="flex gap-6 flex-wrap">
+              <div className="flex gap-6 flex-wrap lg:justify-start justify-center">
                 <div className="flex items-center gap-3">
                   <div className="text-rose-600 flex-shrink-0">
                     <CheckIcon />
                   </div>
-                  <span className="text-gray-700 font-medium">
+                  <span
+                    className="text-gray-700 font-medium"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     Free Forever
                   </span>
                 </div>
@@ -232,7 +263,10 @@ export default function SignupPage() {
                   <div className="text-rose-600 flex-shrink-0">
                     <CheckIcon />
                   </div>
-                  <span className="text-gray-700 font-medium">
+                  <span
+                    className="text-gray-700 font-medium"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                  >
                     Fully Secure
                   </span>
                 </div>
@@ -240,7 +274,7 @@ export default function SignupPage() {
             </div>
 
             {/* Right Side - Signup Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 h-fit border border-gray-100 mt-10">
+            <div className="bg-white rounded-2xl shadow-lg p-8 h-fit border border-gray-100 mt-3">
               <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">
                 Create Account
               </h2>
