@@ -11,9 +11,17 @@ export default function CycleProgressCard({
 }: CycleProgressCardProps) {
   if (!currentDay) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-3">Cycle Progress</h3>
-        <p className="text-gray-600">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 sm:p-6">
+        <h3
+          className="font-bold text-gray-900 mb-3"
+          style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+        >
+          Cycle Progress
+        </h3>
+        <p
+          className="text-gray-600"
+          style={{ fontSize: "clamp(0.875rem, 2vw, 1rem)" }}
+        >
           Log your first period to track your cycle progress
         </p>
       </div>
@@ -44,17 +52,32 @@ export default function CycleProgressCard({
   const phase = getPhase(currentDay, cycleLength);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
-      <h3 className="text-xl font-bold text-gray-900 mb-6">Cycle Progress</h3>
+    <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4 sm:p-6">
+      <h3
+        className="font-bold text-gray-900 mb-6"
+        style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+      >
+        Cycle Progress
+      </h3>
 
       {/* Period Late Alert */}
       {isLate && (
-        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
           <div className="flex items-start gap-3">
-            <div className="text-red-600 font-bold text-lg">⚠</div>
-            <div>
-              <div className="font-bold text-red-900 mb-1">Period is Late</div>
-              <div className="text-sm text-red-800">
+            <div className="text-red-600 font-bold text-lg flex-shrink-0">
+              ⚠
+            </div>
+            <div className="min-w-0">
+              <div
+                className="font-bold text-red-900 mb-1"
+                style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+              >
+                Period is Late
+              </div>
+              <div
+                className="text-red-800"
+                style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+              >
                 Your period is{" "}
                 <span className="font-bold">
                   {daysUntilNext} day{daysUntilNext !== 1 ? "s" : ""}
@@ -72,11 +95,15 @@ export default function CycleProgressCard({
         <div className="flex justify-between items-end mb-3">
           <div>
             <div
-              className={`text-5xl font-bold ${isLate ? "text-red-600" : "text-rose-600"}`}
+              className={`font-bold ${isLate ? "text-red-600" : "text-rose-600"}`}
+              style={{ fontSize: "clamp(2.5rem, 8vw, 3.5rem)" }}
             >
               {currentDay}
             </div>
-            <div className="text-sm text-gray-600 font-medium mt-1">
+            <div
+              className="text-gray-600 font-medium mt-1"
+              style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+            >
               {isLate ? (
                 <span>
                   Day{" "}
@@ -93,7 +120,7 @@ export default function CycleProgressCard({
         </div>
 
         {/* Visual Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+        <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
           <div
             className={`h-full transition-all duration-500 ${isLate ? "bg-red-600" : "bg-rose-600"}`}
             style={{ width: `${Math.min(progress, 100)}%` }}

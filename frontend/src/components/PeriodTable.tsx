@@ -78,20 +78,20 @@ export default function PeriodTable({ periods }: PeriodTableProps) {
         <h3 className="text-lg font-bold text-gray-900">Recent Periods</h3>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
+      <div className="overflow-hidden">
+        <table className="w-full text-sm md:text-base">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Start Date
               </th>
-              <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider hidden sm:table-cell">
                 Duration
               </th>
-              <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Flow
               </th>
-              <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider hidden md:table-cell">
                 Notes
               </th>
             </tr>
@@ -112,8 +112,8 @@ export default function PeriodTable({ periods }: PeriodTableProps) {
                   key={period.id}
                   className="hover:bg-gray-50 transition duration-200"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
+                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 whitespace-nowrap">
+                    <div className="text-xs sm:text-sm font-medium text-gray-900">
                       {new Date(period.start_date).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -121,20 +121,22 @@ export default function PeriodTable({ periods }: PeriodTableProps) {
                       })}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-700">{duration} days</div>
+                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 whitespace-nowrap hidden sm:table-cell">
+                    <div className="text-xs sm:text-sm text-gray-700">
+                      {duration} days
+                    </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 whitespace-nowrap">
                     <span
-                      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold ${flowStyles}`}
+                      className={`inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full text-xs font-bold ${flowStyles}`}
                     >
-                      <span className="capitalize">
+                      <span className="capitalize text-xs sm:text-sm">
                         {flowIntensityLabels[flowKey] || "Moderate"}
                       </span>
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm text-gray-600 max-w-xs truncate">
+                  <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 hidden md:table-cell">
+                    <div className="text-xs sm:text-sm text-gray-600 max-w-xs truncate">
                       {period.notes || "—"}
                     </div>
                   </td>

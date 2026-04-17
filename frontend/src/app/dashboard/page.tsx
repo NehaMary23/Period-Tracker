@@ -95,15 +95,15 @@ export default function DashboardPage() {
         {/* Page Header */}
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 
+                <h1
                   className="font-bold text-gray-900 mb-2"
-                  style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
+                  style={{ fontSize: "clamp(2rem, 5vw, 2.4rem)" }}
                 >
                   Your Cycle Dashboard
                 </h1>
-                <p 
+                <p
                   className="text-gray-600"
                   style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
                 >
@@ -189,7 +189,7 @@ export default function DashboardPage() {
           {cycleInfo?.phase && (
             <div
               onClick={() => setShowPhaseModal(true)}
-              className={`mb-8 bg-white rounded-lg shadow-md border-l-4 p-8 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-2 ${
+              className={`mb-8 bg-white rounded-lg shadow-md border-l-4 p-4 sm:p-6 lg:p-8 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-2 ${
                 cycleInfo.phase.color === "rose"
                   ? "border-l-rose-600"
                   : cycleInfo.phase.color === "blue"
@@ -199,10 +199,10 @@ export default function DashboardPage() {
                       : "border-l-rose-600"
               }`}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
                 <div className="flex-1">
                   <h2
-                    className={`text-4xl font-bold mb-2 ${
+                    className={`font-bold mb-2 ${
                       cycleInfo.phase.color === "rose"
                         ? "text-rose-600"
                         : cycleInfo.phase.color === "blue"
@@ -211,14 +211,21 @@ export default function DashboardPage() {
                             ? "text-rose-600"
                             : "text-rose-600"
                     }`}
+                    style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
                   >
                     {cycleInfo.phase.name}
                   </h2>
-                  <p className="text-gray-700 text-lg mb-4">
+                  <p 
+                    className="text-gray-700 mb-4"
+                    style={{ fontSize: "clamp(0.875rem, 2vw, 1.125rem)" }}
+                  >
                     {cycleInfo.phase.description}
                   </p>
                   {cycleInfo.phase.day && (
-                    <div className="text-base text-gray-600">
+                    <div 
+                      className="text-gray-600"
+                      style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                    >
                       <span className="font-semibold">
                         Day {cycleInfo.phase.day}
                       </span>
@@ -229,7 +236,7 @@ export default function DashboardPage() {
                   )}
                 </div>
                 <div
-                  className={`w-20 h-20 rounded-full flex flex-col items-center justify-center flex-shrink-0 ml-6 ${
+                  className={`flex-shrink-0 rounded-full flex flex-col items-center justify-center ${
                     cycleInfo.phase.color === "rose"
                       ? "bg-rose-50 text-rose-400"
                       : cycleInfo.phase.color === "blue"
@@ -238,8 +245,12 @@ export default function DashboardPage() {
                           ? "bg-rose-50 text-rose-400"
                           : "bg-rose-50 text-rose-400"
                   }`}
+                  style={{ width: "clamp(4rem, 12vw, 6rem)", height: "clamp(4rem, 12vw, 6rem)" }}
                 >
-                  <div className="text-3xl font-bold">
+                  <div 
+                    className="font-bold"
+                    style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+                  >
                     {(() => {
                       const d = cycleInfo.phase.day;
                       if (!d) return "—";
@@ -250,8 +261,6 @@ export default function DashboardPage() {
                       return d;
                     })()}
                   </div>
-
-                  {/* Removed days left text below the number */}
                 </div>
               </div>
             </div>
