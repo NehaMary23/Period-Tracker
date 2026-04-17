@@ -283,7 +283,8 @@ export default function DashboardPage() {
                         >
                           <span className="font-semibold">
                             {(() => {
-                              const day = cycleInfo.current_day || cycleInfo.phase.day;
+                              const day =
+                                cycleInfo.current_day || cycleInfo.phase.day;
                               const length = cycleInfo.cycle_length || 28;
                               const percent = (day / length) * 100;
 
