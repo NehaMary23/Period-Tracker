@@ -231,6 +231,7 @@ export default function SettingsPage() {
                     setAccountData({ ...accountData, username: e.target.value })
                   }
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-rose-600 outline-none transition text-gray-900 bg-white"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 />
               </div>
 
@@ -248,6 +249,7 @@ export default function SettingsPage() {
                     setAccountData({ ...accountData, email: e.target.value })
                   }
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-rose-600 outline-none transition text-gray-900 bg-white"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 />
               </div>
 
@@ -281,6 +283,7 @@ export default function SettingsPage() {
                     }
                     placeholder="Enter new password (min 8 characters)"
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-rose-600 outline-none transition text-gray-900 font-semibold bg-white"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                   />
                   <p
                     className="mt-1 text-gray-500"
@@ -308,6 +311,7 @@ export default function SettingsPage() {
                       setAccountData({ ...accountData, password: "" });
                     }}
                     className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition duration-200"
+                    style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
                   >
                     Cancel
                   </button>
@@ -347,6 +351,7 @@ export default function SettingsPage() {
                     max="40"
                     defaultValue={settings.cycle_length || 28}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-rose-600 outline-none transition text-gray-900 font-semibold bg-white"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                   />
                 </div>
 
@@ -364,6 +369,7 @@ export default function SettingsPage() {
                     max="10"
                     defaultValue={settings.period_length || 5}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-rose-600 outline-none transition text-gray-900 font-semibold bg-white"
+                    style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                   />
                 </div>
               </div>
@@ -380,6 +386,7 @@ export default function SettingsPage() {
                 <Link
                   href="/dashboard"
                   className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition duration-200 text-center border-2 border-gray-300"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 >
                   Cancel
                 </Link>
@@ -390,6 +397,7 @@ export default function SettingsPage() {
                   type="button"
                   onClick={handleLogout}
                   className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
                 >
                   <LogOut size={20} />
                   Logout

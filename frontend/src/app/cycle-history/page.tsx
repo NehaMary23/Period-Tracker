@@ -114,7 +114,9 @@ export default function CycleHistoryPage() {
                                   ? "bg-rose-100 text-rose-700"
                                   : "bg-red-100 text-red-700"
                             }`}
-                            style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+                            style={{
+                              fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)",
+                            }}
                           >
                             {period.flow_intensity.charAt(0).toUpperCase() +
                               period.flow_intensity.slice(1)}
@@ -132,7 +134,9 @@ export default function CycleHistoryPage() {
                           </span>
                           <p
                             className="mt-1 text-gray-600 line-clamp-2"
-                            style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+                            style={{
+                              fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)",
+                            }}
                           >
                             {period.notes}
                           </p>
