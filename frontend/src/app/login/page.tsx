@@ -360,31 +360,31 @@ export default function LoginPage() {
       {/* Hero Section with Login Form */}
       <div className="flex-1 bg-gradient-to-br from-slate-50 via-rose-50 to-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
             {/* Left Side - Content */}
             <div>
-              <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight tracking-tight">
                 Take Control of Your Health
               </h1>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed font-light">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed font-light">
                 Track your menstrual cycle with precision, understand your
                 body's patterns, and make informed decisions about your health
                 and wellness.
               </p>
-              <div className="flex gap-6 flex-wrap">
-                <div className="flex items-center gap-3">
+              <div className="flex gap-4 sm:gap-6 flex-wrap">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <div className="text-rose-600 flex-shrink-0">
                     <CheckIcon />
                   </div>
-                  <span className="text-gray-700 font-medium">
+                  <span className="text-sm sm:text-base text-gray-700 font-medium">
                     100% Private
                   </span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <div className="text-rose-600 flex-shrink-0">
                     <CheckIcon />
                   </div>
-                  <span className="text-gray-700 font-medium">Easy to Use</span>
+                  <span className="text-sm sm:text-base text-gray-700 font-medium">Easy to Use</span>
                 </div>
               </div>
             </div>
