@@ -224,7 +224,10 @@ export default function EditPeriodPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)" }}
+                  >
                     Start Date
                   </label>
                   <input
@@ -238,7 +241,10 @@ export default function EditPeriodPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3">
+                  <label
+                    className="block font-bold text-gray-900 mb-3"
+                    style={{ fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)" }}
+                  >
                     End Date
                   </label>
                   <input
@@ -253,7 +259,10 @@ export default function EditPeriodPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+                <label
+                  className="block font-bold text-gray-900 mb-3"
+                  style={{ fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)" }}
+                >
                   Flow Intensity
                 </label>
                 <select
@@ -271,7 +280,10 @@ export default function EditPeriodPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-3">
+                <label
+                  className="block font-bold text-gray-900 mb-3"
+                  style={{ fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)" }}
+                >
                   Notes (Optional)
                 </label>
                 <textarea
@@ -288,12 +300,20 @@ export default function EditPeriodPage() {
                 <button
                   type="submit"
                   disabled={saving}
+                  style={{
+                    maxWidth: "clamp(200px, 100%, 28rem)",
+                    fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)",
+                  }}
                   className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
                 >
                   {saving ? "Saving..." : "Save Changes"}
                 </button>
                 <Link
                   href="/cycle-history"
+                  style={{
+                    maxWidth: "clamp(200px, 100%, 28rem)",
+                    fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)",
+                  }}
                   className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-3 px-6 rounded-lg transition duration-200 text-center border-2 border-gray-300"
                 >
                   Cancel
