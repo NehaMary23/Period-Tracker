@@ -9,10 +9,18 @@ Period Tracker is a full-stack web application that helps users track menstrual 
 
 * **Cycle Tracking** – Log period start/end dates and flow intensity along with notes
 * **Cycle Phase Detection** – Automatically shows current phase (Menstrual, Follicular, Ovulation, Luteal)
+* **Google Calendar Integration** – Connect your account to automatically add period reminders to Google Calendar (available for test users only)
 * **Smart Predictions** – Predicts next period based on cycle history
 * **Dashboard Analytics** – View cycle insights and statistics
 * **Password Reset via Email** – Secure email-based password reset system
 * **Authentication & Security** – Token-based login with user-specific data isolation
+
+## 🔔 Google Calendar Integration (Note)
+
+The Google Calendar reminder feature is currently in **testing mode** due to OAuth restrictions.  
+Only authorized test users can access this functionality at the moment.
+
+Once connected, period reminders are automatically added to the user's Google Calendar based on logged cycle data.
 
 ## 🛠️ Tech Stack
 
