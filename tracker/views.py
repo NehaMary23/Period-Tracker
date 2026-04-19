@@ -31,8 +31,15 @@ from datetime import timedelta, date
 import json
 from django.core.mail import send_mail
 from django.conf import settings as django_settings
-from .models import PeriodCycle, HealthSymptom, CycleReminder, UserToken
+from .models import PeriodCycle, HealthSymptom, CycleReminder, UserToken, GoogleCalendarToken, GoogleCalendarReminder
 from .forms import PeriodCycleForm, HealthSymptomForm, CycleReminderForm, SignUpForm
+from .google_calendar import (
+    get_authorization_url,
+    exchange_code_for_tokens,
+    store_google_tokens,
+    create_period_reminder_event,
+    delete_period_reminder_event,
+)
 
 
 def get_cycle_phase(current_day, cycle_length=28):
@@ -453,6 +460,21 @@ def api_periods(request):
                 notes=notes
             )
             
+            # Try to create Google Calendar reminder (1 day before NEXT period)
+            try:
+                # Calculate next period (assuming 28-day cycle)
+                next_period_date = date.fromisoformat(start_date) + timedelta(days=28)
+                reminder_date = next_period_date - timedelta(days=1)
+                print(f"DEBUG: Creating calendar reminder for user {user.username}, next period: {next_period_date}, reminder date: {reminder_date}")
+                create_period_reminder_event(user, period, reminder_date)
+                print(f"DEBUG: Calendar reminder created successfully")
+            except Exception as calendar_error:
+                # Log error but don't fail the period creation
+                import logging
+                logger = logging.getLogger(__name__)
+                print(f"DEBUG: Failed to create Google Calendar reminder: {str(calendar_error)}")
+                logger.warning(f"Failed to create Google Calendar reminder: {str(calendar_error)}")
+            
             return JsonResponse({
                 'id': period.id,
                 'start_date': period.start_date,
@@ -523,6 +545,15 @@ def api_period_detail(request, pk):
             }, status=200)
         
         elif request.method == 'DELETE':
+            # Try to delete Google Calendar reminder first
+            try:
+                delete_period_reminder_event(period)
+            except Exception as calendar_error:
+                # Log error but don't fail the period deletion
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Failed to delete Google Calendar reminder: {str(calendar_error)}")
+            
             # Delete period
             period.delete()
             return JsonResponse({'message': 'Period deleted successfully'}, status=200)
@@ -860,3 +891,105 @@ def api_password_reset_confirm(request):
     token_obj.delete()  # One-time use
 
     return JsonResponse({'message': 'Password reset successful.'})
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def api_google_calendar_auth_url(request):
+    """Get Google OAuth authorization URL"""
+    try:
+        auth_url, state = get_authorization_url()
+        return JsonResponse({
+            'auth_url': auth_url,
+            'state': state,
+        }, status=200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_google_calendar_callback(request):
+    """Handle Google OAuth callback and store tokens"""
+    user = get_authenticated_user(request)
+    if not user:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    
+    try:
+        data = json.loads(request.body)
+        code = data.get('code')
+        
+        if not code:
+            return JsonResponse({'error': 'Authorization code is required'}, status=400)
+        
+        # Exchange code for tokens
+        try:
+            tokens = exchange_code_for_tokens(code)
+        except Exception as e:
+            print(f"DEBUG: Error exchanging code for tokens: {str(e)}")
+            raise
+        
+        # Store tokens in database
+        store_google_tokens(
+            user=user,
+            access_token=tokens['access_token'],
+            refresh_token=tokens['refresh_token'],
+            expiry=tokens['expiry']
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Google Calendar connected successfully'
+        }, status=200)
+    
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        error_msg = str(e)
+        print(f"DEBUG: Callback error: {error_msg}")
+        return JsonResponse({'error': error_msg}, status=500)
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def api_google_calendar_status(request):
+    """Check if user has Google Calendar connected"""
+    user = get_authenticated_user(request)
+    if not user:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    
+    try:
+        google_token = GoogleCalendarToken.objects.get(user=user)
+        return JsonResponse({
+            'connected': True,
+            'token_expiry': google_token.token_expiry.isoformat(),
+        }, status=200)
+    except GoogleCalendarToken.DoesNotExist:
+        return JsonResponse({
+            'connected': False,
+        }, status=200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_google_calendar_disconnect(request):
+    """Disconnect Google Calendar"""
+    user = get_authenticated_user(request)
+    if not user:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    
+    try:
+        GoogleCalendarToken.objects.get(user=user).delete()
+        return JsonResponse({
+            'success': True,
+            'message': 'Google Calendar disconnected'
+        }, status=200)
+    except GoogleCalendarToken.DoesNotExist:
+        return JsonResponse({
+            'success': True,
+            'message': 'Not connected'
+        }, status=200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

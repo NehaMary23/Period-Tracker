@@ -14,12 +14,9 @@ import dj_database_url
 import os
 from pathlib import Path
 
-# Load environment variables from .env file (optional)
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv(Path(os.path.dirname(__file__)).parent / '.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -159,3 +156,8 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 CORS_ALLOW_ALL_ORIGINS = True  # temporary, to test
 CORS_ALLOW_CREDENTIALS = True
+
+# Google Calendar Configuration
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
+GOOGLE_REDIRECT_URI = os.environ.get('GOOGLE_REDIRECT_URI', 'http://localhost:3000/google-callback')

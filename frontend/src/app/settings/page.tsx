@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated, logout, getUser, setUser } from "@/lib/auth";
-import { settingsAPI, AuthenticationError } from "@/lib/api";
+import { settingsAPI, googleCalendarAPI, AuthenticationError } from "@/lib/api";
 import { Toast, useToast } from "@/components/Toast";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -38,6 +38,9 @@ export default function SettingsPage() {
   });
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [googleCalendarConnected, setGoogleCalendarConnected] = useState(false);
+  const [connectingGoogle, setConnectingGoogle] = useState(false);
+  const [showDisconnectConfirm, setShowDisconnectConfirm] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -63,6 +66,14 @@ export default function SettingsPage() {
           email: currentUser?.email || settingsData.email || "",
           password: "",
         });
+
+        // Check Google Calendar connection status
+        try {
+          const calendarStatus = await googleCalendarAPI.getStatus();
+          setGoogleCalendarConnected(calendarStatus.connected);
+        } catch (error) {
+          console.error("Failed to fetch Google Calendar status:", error);
+        }
       } catch (error) {
         console.error("Failed to fetch settings:", error);
 
@@ -93,6 +104,31 @@ export default function SettingsPage() {
   const handleLogout = async () => {
     await logout();
     router.push("/login");
+  };
+
+  const handleConnectGoogle = async () => {
+    setConnectingGoogle(true);
+    try {
+      const result = await googleCalendarAPI.getAuthUrl();
+      // Redirect to Google OAuth
+      window.location.href = result.auth_url;
+    } catch (error) {
+      console.error("Failed to get Google auth URL:", error);
+      showError("Failed to connect Google Calendar. Please try again.");
+      setConnectingGoogle(false);
+    }
+  };
+
+  const handleDisconnectGoogle = async () => {
+    try {
+      await googleCalendarAPI.disconnect();
+      setGoogleCalendarConnected(false);
+      setShowDisconnectConfirm(false);
+      showSuccess("Google Calendar disconnected successfully!");
+    } catch (error) {
+      console.error("Failed to disconnect Google Calendar:", error);
+      showError("Failed to disconnect Google Calendar. Please try again.");
+    }
   };
 
   const handleAccountSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -197,6 +233,43 @@ export default function SettingsPage() {
             type={toast.type}
             duration={toast.duration}
           />
+        )}
+
+        {/* Disconnect Confirmation Toast */}
+        {showDisconnectConfirm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+              <h3
+                className="font-bold text-gray-900 mb-2"
+                style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)" }}
+              >
+                Disconnect Google Calendar?
+              </h3>
+              <p
+                className="text-gray-600 mb-6"
+                style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+              >
+                Are you sure you want to disconnect Google Calendar? You won't
+                receive automatic period reminders.
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setShowDisconnectConfirm(false)}
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-2 px-4 rounded-lg transition duration-200"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDisconnectGoogle}
+                  className="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
+                  Disconnect
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Main Content */}
@@ -318,6 +391,59 @@ export default function SettingsPage() {
                 )}
               </div>
             </form>
+          </div>
+
+          {/* Google Calendar Integration Section */}
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8 mb-6">
+            <h2
+              className="font-bold text-gray-900 mb-2"
+              style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+            >
+              Google Calendar Integration
+            </h2>
+            <p
+              className="text-gray-600 mb-6"
+              style={{ fontSize: "clamp(0.875rem, 2vw, 1rem)" }}
+            >
+              Send automatic period reminders to your Google Calendar
+            </p>
+
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 gap-4">
+              <div>
+                <p
+                  className="font-semibold text-gray-900 mb-1"
+                  style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
+                >
+                  {googleCalendarConnected ? "Connected" : "Not Connected"}
+                </p>
+                <p
+                  className="text-gray-600"
+                  style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+                >
+                  {googleCalendarConnected
+                    ? "Your automatic period reminders are being sent to your Google Calendar"
+                    : "Connect your Google Calendar to automatically send period reminders one day before your expected period"}
+                </p>
+              </div>
+              <button
+                onClick={
+                  googleCalendarConnected
+                    ? () => setShowDisconnectConfirm(true)
+                    : handleConnectGoogle
+                }
+                disabled={connectingGoogle}
+                className="w-full md:w-auto font-semibold py-2 px-6 rounded-lg transition duration-200 whitespace-nowrap bg-rose-600 hover:bg-rose-700 text-white disabled:opacity-50"
+                style={{ fontSize: "clamp(0.75rem, 1.3vw, 0.875rem)" }}
+              >
+                {connectingGoogle
+                  ? googleCalendarConnected
+                    ? "Disconnecting..."
+                    : "Connecting..."
+                  : googleCalendarConnected
+                    ? "Disconnect"
+                    : "Connect"}
+              </button>
+            </div>
           </div>
 
           {/* Cycle Tracking Settings Section */}

@@ -194,3 +194,35 @@ export const settingsAPI = {
       body: JSON.stringify(data),
     }),
 };
+
+/**
+ * Google Calendar API calls
+ */
+export const googleCalendarAPI = {
+  getAuthUrl: () =>
+    apiRequest<{ auth_url: string; state: string }>(
+      "/api/google-calendar/auth-url/",
+      { method: "GET" },
+    ),
+
+  callback: (code: string) =>
+    apiRequest<{ success: boolean; message: string }>(
+      "/api/google-calendar/callback/",
+      {
+        method: "POST",
+        body: JSON.stringify({ code }),
+      },
+    ),
+
+  getStatus: () =>
+    apiRequest<{ connected: boolean; token_expiry?: string }>(
+      "/api/google-calendar/status/",
+      { method: "GET" },
+    ),
+
+  disconnect: () =>
+    apiRequest<{ success: boolean; message: string }>(
+      "/api/google-calendar/disconnect/",
+      { method: "POST" },
+    ),
+};

@@ -28,4 +28,10 @@ urlpatterns = [
     # Notification API endpoints
     path('notifications/send/', views.api_send_notification, name='api_send_notification'),
     path('notifications/test/', views.api_test_period_notifications, name='api_test_period_notifications'),
+    
+    # Google Calendar API endpoints
+    path('google-calendar/auth-url/', views.api_google_calendar_auth_url, name='api_google_calendar_auth_url'),
+    path('google-calendar/callback/', views.api_google_calendar_callback, name='api_google_calendar_callback'),
+    path('google-calendar/status/', views.api_google_calendar_status, name='api_google_calendar_status'),
+    path('google-calendar/disconnect/', views.api_google_calendar_disconnect, name='api_google_calendar_disconnect'),
 ]

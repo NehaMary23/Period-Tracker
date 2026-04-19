@@ -173,3 +173,40 @@ class PasswordResetToken(models.Model):
         token_str = secrets.token_hex(32)
         cls.objects.create(user=user, token=token_str)
         return token_str
+
+
+class GoogleCalendarToken(models.Model):
+    """Model to store Google Calendar OAuth tokens"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='google_calendar_token')
+    access_token = models.TextField(help_text="Google OAuth access token")
+    refresh_token = models.TextField(help_text="Google OAuth refresh token")
+    token_expiry = models.DateTimeField(help_text="Token expiration datetime")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Google Calendar Token"
+        verbose_name_plural = "Google Calendar Tokens"
+
+    def __str__(self):
+        return f"Google Calendar Token for {self.user.username}"
+
+    def is_expired(self):
+        """Check if token is expired"""
+        return timezone.now() > self.token_expiry
+
+
+class GoogleCalendarReminder(models.Model):
+    """Model to track Google Calendar event reminders for periods"""
+    period = models.OneToOneField(PeriodCycle, on_delete=models.CASCADE, related_name='google_reminder')
+    calendar_event_id = models.CharField(max_length=255, help_text="Google Calendar event ID")
+    reminder_date = models.DateField(help_text="Date of the reminder (1 day before period start)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Google Calendar Reminder"
+        verbose_name_plural = "Google Calendar Reminders"
+
+    def __str__(self):
+        return f"Reminder for {self.period.user.username} on {self.reminder_date}"
