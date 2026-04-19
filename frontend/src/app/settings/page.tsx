@@ -249,7 +249,8 @@ export default function SettingsPage() {
                 className="text-gray-600 mb-6"
                 style={{ fontSize: "clamp(0.875rem, 1.5vw, 1rem)" }}
               >
-                Are you sure you want to disconnect Google Calendar? You won't receive automatic period reminders.
+                Are you sure you want to disconnect Google Calendar? You won't
+                receive automatic period reminders.
               </p>
               <div className="flex gap-4">
                 <button
