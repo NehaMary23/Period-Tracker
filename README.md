@@ -74,4 +74,4 @@ npm run dev
 * AI-Based Predictions – More accurate cycle predictions using machine learning
 
 ## 🎥 Demo 
-https://github.com/user-attachments/assets/c893c124-39b4-4ab9-8258-caaf7aec1ec8
+[https://github.com/user-attachments/assets/c893c124-39b4-4ab9-8258-caaf7aec1ec8](https://github.com/user-attachments/assets/df2a1ce1-cd04-4745-b062-323655e825a1)
